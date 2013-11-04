@@ -8,22 +8,20 @@ import syriangraph.SyrianEdge;
 import syriangraph.SyrianGraph;
 import syriangraph.SyrianVertex;
 
-public class BaseSyrianAgent
+public abstract class BaseSyrianAgent<G extends SyrianGraph<V, E>, V extends SyrianVertex<E, V>, E extends SyrianEdge<V, E>>
 		extends
-		BaseAgent<SyrianGraph<SyrianVertex, SyrianEdge>, SyrianVertex, SyrianEdge>
-		implements SyrianAgent {
+		BaseAgent<G, V, E>
+		implements SyrianAgent<G, V, E> {
 
 	public static int MILITARY_ESCORT_PENALTY_FACTOR = 2;
 	public static int CHEMICALS_CARRY_PENALTY_FACTOR = 2;
 
-	private boolean takeEscort, carryChemicals;
-
-	public BaseSyrianAgent(SyrianGraph<SyrianVertex, SyrianEdge> graph,
-			SyrianVertex start) {
+	public BaseSyrianAgent(G graph,
+			V start) {
 		super(graph, start);
 	}
 
-	public long drive(SyrianEdge e, boolean takeEscort, boolean carryChemicals)
+	public long drive(E e, boolean takeEscort, boolean carryChemicals)
 			throws VertexNotPartOfEdgeException, NoMoreMovesException,
 			VertexHasNoMilitaryException, VertexHasNoChemicalsException {
 
@@ -57,6 +55,7 @@ public class BaseSyrianAgent
 			}
 		}
 
+		// return penalty modified result considering agent's decisions
 		return factor * super.drive(e);
 	}
 

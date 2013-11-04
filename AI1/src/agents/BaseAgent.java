@@ -3,10 +3,10 @@ package agents;
 import exceptions.NoMoreMovesException;
 import exceptions.VertexNotPartOfEdgeException;
 import graph.Edge;
-import graph.Graph;
+import graph.BaseGraph;
 import graph.Vertex;
 
-public class BaseAgent<G extends Graph<V, E>, V extends Vertex<E, V>, E extends Edge<V, E>> implements Agent<G, V, E>{
+public class BaseAgent<G extends BaseGraph<V, E>, V extends Vertex<E, V>, E extends Edge<V, E>> implements Agent<G, V, E>{
 
 	private V location;
 	private G graph;

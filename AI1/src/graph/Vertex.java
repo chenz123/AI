@@ -46,5 +46,13 @@ public interface Vertex<E extends Edge<V, E>, V extends Vertex<E,V>>{
 	 */
 	public AbstractCollection<V> getNeighbours() throws VertexNotPartOfEdgeException;
 
-	
+	/**
+	 * Check if vertex has an edge connecting it with vertex v 
+	 * @param v
+	 * 			destination vertex
+	 * @return
+	 * 			the edge connecting this vertex to v
+	 * 			null otherwise
+	 */
+	public E hasEdgeTo(V v);
 }

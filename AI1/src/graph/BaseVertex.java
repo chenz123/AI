@@ -5,16 +5,17 @@ import java.util.ArrayList;
 
 import exceptions.VertexNotPartOfEdgeException;
 
-public class BaseVertex<V extends Vertex<E, V>, E extends Edge<V, E>> implements Vertex<E, V>{
+public class BaseVertex<V extends Vertex<E, V>, E extends Edge<V, E>>
+		implements Vertex<E, V> {
 
 	private int number;
 	private String name;
 	private AbstractCollection<E> edges;
-	
-	public BaseVertex(int number){
+
+	public BaseVertex(int number) {
 		this.setNumber(number);
 	}
-	
+
 	@Override
 	public void setNumber(int number) {
 		this.number = number;
@@ -55,18 +56,37 @@ public class BaseVertex<V extends Vertex<E, V>, E extends Edge<V, E>> implements
 		return this.edges.remove(e);
 	}
 
-	@SuppressWarnings("unchecked")
+	// @SuppressWarnings("unchecked")
 	@Override
-	public AbstractCollection<V> getNeighbours() throws VertexNotPartOfEdgeException {
-		
+	public AbstractCollection<V> getNeighbours()
+			throws VertexNotPartOfEdgeException {
+
 		AbstractCollection<V> res = new ArrayList<V>();
-		
-		for (E e: this.getEdges()){
-			res.add(e.otherVertex((V) this));
+
+		for (E e : this.getEdges()) {
+			if (e.getV1() == this) {
+				if (e.getV2() == this) {
+					res.add(e.getV2());
+				} else {
+					// something went wrong, vertex doesn't have this edge!
+					throw new VertexNotPartOfEdgeException("Vertex "
+							+ this.getNumber() + " is not part of edge "
+							+ e.getNumber());
+				}
+			} else {
+				res.add(e.getV1());
+			}
 		}
-		
+
 		return res;
 	}
-	
+
+	@Override
+	public E hasEdgeTo(V v) {
+		for (E e : this.getEdges()){
+			if (e.hasVertex(v)) return e;
+		}
+		return null;
+	}
 
 }

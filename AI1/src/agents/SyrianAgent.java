@@ -8,7 +8,9 @@ import syriangraph.SyrianEdge;
 import syriangraph.SyrianGraph;
 import syriangraph.SyrianVertex;
 
-public interface SyrianAgent extends Agent<SyrianGraph<SyrianVertex, SyrianEdge>, SyrianVertex, SyrianEdge>{
+public interface SyrianAgent<G extends SyrianGraph<V, E>, V extends SyrianVertex<E, V>, E extends SyrianEdge<V, E>> extends Agent<G, V, E>{
 
-	public long drive(SyrianEdge e, boolean takeEscort, boolean carryChemicals) throws VertexNotPartOfEdgeException, NoMoreMovesException, VertexHasNoMilitaryException, VertexHasNoChemicalsException;
+	public long drive(E e, boolean takeEscort, boolean carryChemicals) throws VertexNotPartOfEdgeException, NoMoreMovesException, VertexHasNoMilitaryException, VertexHasNoChemicalsException;
+	
+	public void decide();
 }
