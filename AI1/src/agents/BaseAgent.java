@@ -1,5 +1,6 @@
 package agents;
 
+import exceptions.NoMoreMovesException;
 import exceptions.VertexNotPartOfEdgeException;
 import graph.Edge;
 import graph.Graph;
@@ -17,7 +18,7 @@ public class BaseAgent<G extends Graph<V, E>, V extends Vertex<E, V>, E extends 
 	}
 
 	@Override
-	public long drive(E e) throws VertexNotPartOfEdgeException {
+	public long drive(E e) throws VertexNotPartOfEdgeException, NoMoreMovesException {
 		// make sure this is a valid move
 		if (e.hasVertex(this.location)){
 			// move agent
