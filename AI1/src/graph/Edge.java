@@ -25,5 +25,7 @@ public interface Edge<V extends Vertex<E,V>, E extends Edge<V,E>> {
 	
 	public V getV2();
 	
+	public boolean hasVertex(V v);
+	
 	public V otherVertex(V t) throws VertexNotPartOfEdgeException;
 }

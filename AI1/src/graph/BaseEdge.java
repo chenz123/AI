@@ -53,16 +53,16 @@ public class BaseEdge<V extends Vertex<E, V>, E extends Edge<V, E>> implements E
 		return this.v2;
 	}
 
+	public boolean hasVertex(V v){
+		return this.v1 == v ? true : this.v2 == v; 
+	}
+	
 	@Override
-	public V otherVertex(V t) throws VertexNotPartOfEdgeException {
-		if (this.v1 != t){
-			if (this.v2 != t){
-				throw new VertexNotPartOfEdgeException("Vertex " + t.getNumber() + " is not part of edge " + this.getNumber());
-			}
-			return this.v1;
+	public V otherVertex(V v) throws VertexNotPartOfEdgeException {
+		if (!this.hasVertex(v)){
+			throw new VertexNotPartOfEdgeException("Vertex " + v.getNumber() + " is not connected to edge " + this.getNumber());
 		}
-		
-		return this.v2;
+		return this.v1 == v ? this.v2 : this.v1;
 	}
 
 	@Override

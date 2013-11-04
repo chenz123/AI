@@ -1,5 +1,6 @@
 package agents;
 
+import exceptions.VertexNotPartOfEdgeException;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
@@ -8,33 +9,40 @@ public class BaseAgent<G extends Graph<V, E>, V extends Vertex<E, V>, E extends 
 
 	private V location;
 	private G graph;
+	private long score;
 	
-	public BaseAgent(G graph){
-		
+	public BaseAgent(G graph, V start){
+		this.graph = graph;
+		this.location = start;
 	}
 
 	@Override
-	public int drive(E e) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long drive(E e) throws VertexNotPartOfEdgeException {
+		// make sure this is a valid move
+		if (e.hasVertex(this.location)){
+			// move agent
+			this.location = e.otherVertex(this.location);
+			// update score
+			this.score += e.getWeight();
+			return e.getWeight();
+		}
+		
+		return this.score;
 	}
 
 	@Override
 	public int noOp() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public V getLocation() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.location;
 	}
 
 	@Override
 	public G getGraph() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.graph;
 	}
 
 }
