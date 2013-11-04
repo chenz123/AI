@@ -1,19 +1,21 @@
 package graph;
 import java.util.AbstractCollection;
 
-public interface Vertex<T extends Edge<?>>{
+import exceptions.VertexNotPartOfEdgeException;
+
+public interface Vertex<E extends Edge<V, E>, V extends Vertex<E,V>>{
 	
 	public void setNumber(int number);
 	
 	public void setName(String name);
 	
-	public void setEdges(AbstractCollection<T> edges);
+	public void setEdges(AbstractCollection<E> edges);
 	
 	public int getNumber();
 	
 	public String name();
 	
-	public AbstractCollection<T> getEdges();
+	public AbstractCollection<E> getEdges();
 	
 	/**
 	 * Add edge to vertex
@@ -23,7 +25,7 @@ public interface Vertex<T extends Edge<?>>{
 	 * 				true - if successful
 	 * 				false - otherwise
 	 */
-	public boolean addEdge(T e);
+	public boolean addEdge(E e);
 	
 	/**
 	 * Remove edge from vertex
@@ -33,7 +35,16 @@ public interface Vertex<T extends Edge<?>>{
 	 * 				true - if successful
 	 * 				false-  otherwise
 	 */
-	public boolean removeEdge(T e);
+	public boolean removeEdge(E e);
+	
+	/**
+	 * Get all vertices that have an edge connecting
+	 * them to this vertex
+	 * @return
+	 * 				a collection of all neighboring vertices
+	 * @throws VertexNotPartOfEdgeException if vertex not part of edge 
+	 */
+	public AbstractCollection<V> getNeighbours() throws VertexNotPartOfEdgeException;
 
 	
 }

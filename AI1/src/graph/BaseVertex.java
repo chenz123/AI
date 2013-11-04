@@ -1,12 +1,15 @@
 package graph;
 
 import java.util.AbstractCollection;
+import java.util.ArrayList;
 
-public class BaseVertex<T extends Edge<?>> implements Vertex<T>{
+import exceptions.VertexNotPartOfEdgeException;
+
+public class BaseVertex<E extends Edge<V, E>, V extends Vertex<E, V>> implements Vertex<E, V>{
 
 	private int number;
 	private String name;
-	private AbstractCollection<T> edges;
+	private AbstractCollection<E> edges;
 	
 	public BaseVertex(int number){
 		this.setNumber(number);
@@ -23,7 +26,7 @@ public class BaseVertex<T extends Edge<?>> implements Vertex<T>{
 	}
 
 	@Override
-	public void setEdges(AbstractCollection<T> edges) {
+	public void setEdges(AbstractCollection<E> edges) {
 		this.edges = edges;
 	}
 
@@ -38,18 +41,32 @@ public class BaseVertex<T extends Edge<?>> implements Vertex<T>{
 	}
 
 	@Override
-	public AbstractCollection<T> getEdges() {
+	public AbstractCollection<E> getEdges() {
 		return this.edges;
 	}
 
 	@Override
-	public boolean addEdge(T e) {
+	public boolean addEdge(E e) {
 		return this.edges.add(e);
 	}
 
 	@Override
-	public boolean removeEdge(T e) {
+	public boolean removeEdge(E e) {
 		return this.edges.remove(e);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public AbstractCollection<V> getNeighbours() throws VertexNotPartOfEdgeException {
+		
+		AbstractCollection<V> res = new ArrayList<V>();
+		
+		for (E e: this.getEdges()){
+			res.add(e.otherVertex((V) this));
+		}
+		
+		return res;
+	}
+	
 
 }

@@ -3,7 +3,7 @@ package syriangraph;
 import graph.BaseVertex;
 
 // GENERICS LOL
-public class SyrianVertex extends BaseVertex<SyrianEdge>{
+public class SyrianVertex extends BaseVertex<SyrianEdge, SyrianVertex>{
 	
 	private boolean hasMilitary, hasChemicals, isGoal;
 	

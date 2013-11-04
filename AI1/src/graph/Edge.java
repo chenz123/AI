@@ -1,21 +1,29 @@
 package graph;
 
+import exceptions.VertexNotPartOfEdgeException;
 
-public interface Edge<T extends Vertex<?>> {
+
+public interface Edge<V extends Vertex<E,V>, E extends Edge<V,E>> {
 	
 	public void setNumber(int number);
 	
 	public void setName(String name);
 	
-	public void setV1(T v1);
+	public void setWeight(int weight);
 	
-	public void setV2(T v2);
+	public void setV1(V v1);
+	
+	public void setV2(V v2);
+	
+	public long getWeight();
 	
 	public int getNumber();
 	
 	public String getName();
 	
-	public T getV1();
+	public V getV1();
 	
-	public T getV2();
+	public V getV2();
+	
+	public V otherVertex(V t) throws VertexNotPartOfEdgeException;
 }
