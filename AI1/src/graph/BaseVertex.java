@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import exceptions.VertexNotPartOfEdgeException;
 
-public class BaseVertex<E extends Edge<V, E>, V extends Vertex<E, V>> implements Vertex<E, V>{
+public class BaseVertex<V extends Vertex<E, V>, E extends Edge<V, E>> implements Vertex<E, V>{
 
 	private int number;
 	private String name;
