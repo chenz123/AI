@@ -10,7 +10,7 @@ import graph.Edge;
 import graph.BaseGraph;
 import graph.Vertex;
 
-public class BaseAgent<G extends BaseGraph<V, E>, V extends Vertex<E, V>, E extends Edge<V, E>> implements Agent<G, V, E>{
+public abstract class BaseAgent<G extends BaseGraph<V, E>, V extends Vertex<E, V>, E extends Edge<V, E>> implements Agent<G, V, E>{
 
 	private static final String AGENT_COLOR = "blue";
 	private V location;

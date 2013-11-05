@@ -5,6 +5,7 @@ import java.util.Scanner;
 import exceptions.VertexHasNoChemicalsException;
 import exceptions.VertexHasNoMilitaryException;
 import exceptions.VertexNotPartOfEdgeException;
+import syriangraph.SyrianEdge;
 import syriangraph.SyrianGraph;
 import syriangraph.SyrianVertex;
 
@@ -110,5 +111,11 @@ public class HumanSyrianAgent
 					+ (v.hasChemicals() ? "HAS CHEMICALS" : "")
 					+ (v.hasChemicals() ? "-BLOCKED" : "") + ")");
 		}
+	}
+
+	@Override
+	public SyrianEdge chooseMove() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
