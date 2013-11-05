@@ -1,16 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import syriangraph.SyrianEdge;
 import syriangraph.SyrianGraph;
-import syriangraph.SyrianVertex;
-
-import graph.BaseEdge;
-import graph.BaseGraph;
-import graph.BaseVertex;
-import graph.Edge;
-import graph.Graph;
-import graph.Vertex;
 
 public class Main {
 

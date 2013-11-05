@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 public class SyrianGraph extends BaseGraph<SyrianVertex, SyrianEdge> {
@@ -189,15 +187,6 @@ public class SyrianGraph extends BaseGraph<SyrianVertex, SyrianEdge> {
 		SyrianEdge e = new SyrianEdge(v1, v2, weight, blocked);
 		this.getEdges().add(e);
 		return e;
-	}
-	
-	public void exportToDotFile(String filename) throws IOException {
-		File outf = new File(filename);
-		FileWriter fw = new FileWriter(outf);
-
-		String sep = System.getProperty("line.separator");
-		super.exportToDotFile(filename);
-		
 	}
 
 }

@@ -6,14 +6,15 @@ public class BaseEdge<V extends Vertex<E, V>, E extends Edge<V, E>> implements
 		Edge<V, E> {
 
 	private int number;
-	private long weight;
 	private String name;
 	private V v1, v2;
+	private long weight;
 	private static int ids = 1;
 
-	public BaseEdge(V v1, V v2) {
+	public BaseEdge(V v1, V v2, long weight) {
 		this.v1 = v1;
 		this.v2 = v2;
+		this.weight = 0;
 		this.setNumber(BaseEdge.ids++);
 	}
 
@@ -70,18 +71,19 @@ public class BaseEdge<V extends Vertex<E, V>, E extends Edge<V, E>> implements
 		return this.v1 == v ? this.v2 : this.v1;
 	}
 
-	@Override
-	public void setWeight(int weight) {
-		this.weight = weight;
+	public String toString() {
+		return "E[" + this.v1.getNumber() + "->" + this.v2.getNumber() + "]";
 	}
+	
 
 	@Override
 	public long getWeight() {
 		return this.weight;
 	}
-
-	public String toString() {
-		return "E[" + this.v1.getNumber() + "->" + this.v2.getNumber() + "]";
+	
+	@Override
+	public void setWeight(long weight) {
+		this.weight = weight;
 	}
 
 }

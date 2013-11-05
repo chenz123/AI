@@ -2,26 +2,27 @@ package syriangraph;
 
 import graph.BaseEdge;
 import graph.Blockable;
-import graph.Weighted;
 
 //public class SyrianEdge implements Edge{
 
-public class SyrianEdge extends BaseEdge<SyrianVertex, SyrianEdge> implements Weighted, Blockable{
+public class SyrianEdge extends BaseEdge<SyrianVertex, SyrianEdge> implements Blockable{
 
 	private boolean blocked;
-	private long weight;
-	
 	public SyrianEdge(SyrianVertex v1, SyrianVertex v2, long weight, boolean blocked) {
-		super(v1, v2);
-		this.weight = weight;
+		super(v1, v2, weight);
 		this.blocked = blocked;
 	}
 
-	public SyrianEdge(SyrianVertex v1, SyrianVertex v2) {
-		super(v1, v2);
-		this.setWeight(0);
+	public SyrianEdge(SyrianVertex v1, SyrianVertex v2, long weight) {
+		super(v1, v2, weight);
 		this.blocked = false;
 	}
+	
+	public SyrianEdge(SyrianVertex v1, SyrianVertex v2) {
+		super(v1, v2, 0);
+		this.blocked = false;
+	}
+
 
 	@Override
 	public boolean isBlocked() {
@@ -40,4 +41,6 @@ public class SyrianEdge extends BaseEdge<SyrianVertex, SyrianEdge> implements We
 	public void setBlocked(boolean b) {
 		this.blocked = b;
 	}
+
+	
 }

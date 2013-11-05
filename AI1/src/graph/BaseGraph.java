@@ -1,10 +1,10 @@
 package graph;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
+
+import aiutils.Utils;
 
 import syriangraph.EdgeAlreadyExistsException;
 
@@ -96,20 +96,24 @@ public abstract class BaseGraph<V extends Vertex<E, V>, E extends Edge<V, E>>
 	}
 
 	public void exportToDotFile(String filename) throws IOException {
-		File outf = new File(filename);
-		FileWriter fw = new FileWriter(outf);
-
 		String sep = System.getProperty("line.separator");
-		fw.write("graph{" + sep);
+		Utils.writeFile("graph {" + sep + this.getDotFileStatements() + "}",
+				filename);
+	}
+
+	public String getDotFileStatements() {
+
+		String res = "";
+		String sep = System.getProperty("line.separator");
+
 		for (V v : this.getVertices()) {
-			fw.write(v.getNumber() + ";" + sep);
+			res += v.getNumber() + ";" + sep;
 		}
 
 		for (E e : this.getEdges()) {
-			fw.write(e.getV1().getNumber() + " -- " + e.getV2().getNumber()
-					+ ";" + sep);
+			res += e.getV1().getNumber() + " -- " + e.getV2().getNumber() + ";"
+					+ sep;
 		}
-		fw.write("}");
-		fw.close();
+		return res;
 	}
 }

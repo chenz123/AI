@@ -9,10 +9,7 @@ import graph.Weighted;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Scanner;
-
 import syriangraph.EdgeAlreadyExistsException;
-import syriangraph.SyrianGraph;
 
 public class GraphDefinitionParser<G extends Graph<V, E>, V extends Vertex<E, V>, E extends Edge<V, E> & Blockable & Weighted> {
 

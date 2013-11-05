@@ -1,5 +1,9 @@
 package agents;
 
+import java.io.IOException;
+
+import aiutils.Utils;
+
 import exceptions.NoMoreMovesException;
 import exceptions.VertexNotPartOfEdgeException;
 import graph.Edge;
@@ -8,6 +12,7 @@ import graph.Vertex;
 
 public class BaseAgent<G extends BaseGraph<V, E>, V extends Vertex<E, V>, E extends Edge<V, E>> implements Agent<G, V, E>{
 
+	private static final String AGENT_COLOR = "blue";
 	private V location;
 	private G graph;
 	private long score;
@@ -44,6 +49,15 @@ public class BaseAgent<G extends BaseGraph<V, E>, V extends Vertex<E, V>, E exte
 	@Override
 	public G getGraph() {
 		return this.graph;
+	}
+	
+	public void exportToDotFile(String filename) throws IOException {
+
+		String sep = System.getProperty("line.separator");
+		String res = this.getGraph().getDotFileStatements();
+		
+		res += this.getLocation().getNumber()+"[color="+BaseAgent.AGENT_COLOR+"]" + sep;
+		Utils.writeFile(res, filename);
 	}
 
 }
