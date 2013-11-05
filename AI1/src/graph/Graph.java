@@ -1,5 +1,6 @@
 package graph;
 
+import java.io.IOException;
 import java.util.AbstractCollection;
 
 import syriangraph.EdgeAlreadyExistsException;
@@ -28,4 +29,6 @@ public interface Graph<V, E> {
 	public E addEdge(V v1, V v2) throws EdgeAlreadyExistsException;
 	
 	public E getEdgeByVertices(V v1, V v2);
+	
+	public void exportToDotFile(String filename) throws IOException;
 }

@@ -1,5 +1,8 @@
 package graph;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 
@@ -70,18 +73,41 @@ public abstract class BaseGraph<V extends Vertex<E, V>, E extends Edge<V, E>>
 		return null;
 	}
 
-	public void parseVerticesFromfile(String num) throws VertexAlreadyExistsException {
+	public void parseVerticesFromfile(String num)
+			throws VertexAlreadyExistsException {
 		System.out.println("Got " + num + " vertices from file");
-		for (int i=0; i<Integer.parseInt(num); i++){
+		for (int i = 0; i < Integer.parseInt(num); i++) {
 			this.addVertex();
 		}
 	}
-	
-	public void parseEdgeFromFile(String v1Num, String v2Num/*, String weight, String blocked*/) throws EdgeAlreadyExistsException{
-		System.out.println("Got edge v1:"+v1Num+" v2:"+v2Num/*+" w:"+weight+" b:"+blocked*/);
+
+	public void parseEdgeFromFile(String v1Num, String v2Num/*
+															 * , String weight,
+															 * String blocked
+															 */)
+			throws EdgeAlreadyExistsException {
+		System.out.println("Got edge v1:" + v1Num + " v2:" + v2Num/*
+																 * +" w:"+weight+
+																 * " b:"+blocked
+																 */);
 		V v1 = this.getVertexByNumber(Integer.parseInt(v1Num));
 		V v2 = this.getVertexByNumber(Integer.parseInt(v2Num));
 		this.addEdge(v1, v2);
 	}
 
+	public void exportToDotFile(String filename) throws IOException {
+		File outf = new File(filename);
+		FileWriter fw = new FileWriter(outf);
+
+		String sep = System.getProperty("line.separator");
+		for (V v : this.getVertices()) {
+			fw.write(v.getNumber() + ";" + sep);
+		}
+
+		for (E e : this.getEdges()) {
+			fw.write(e.getV1().getNumber() + " -- " + e.getV2().getNumber()
+					+ ";" + sep);
+		}
+		fw.close();
+	}
 }
