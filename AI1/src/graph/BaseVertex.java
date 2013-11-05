@@ -11,8 +11,11 @@ public class BaseVertex<V extends Vertex<E, V>, E extends Edge<V, E>>
 	private int number;
 	private String name;
 	private AbstractCollection<E> edges;
-	private static int ids = 0;
+	private static int ids = 1;
+
 	public BaseVertex() {
+		System.out.println("Creating vertex " + BaseVertex.ids);
+		System.out.flush();
 		this.setNumber(BaseVertex.ids++);
 	}
 
@@ -83,8 +86,9 @@ public class BaseVertex<V extends Vertex<E, V>, E extends Edge<V, E>>
 
 	@Override
 	public E hasEdgeTo(V v) {
-		for (E e : this.getEdges()){
-			if (e.hasVertex(v)) return e;
+		for (E e : this.getEdges()) {
+			if (e.hasVertex(v))
+				return e;
 		}
 		return null;
 	}

@@ -4,8 +4,6 @@ import java.util.AbstractCollection;
 import java.util.ArrayList;
 
 import syriangraph.EdgeAlreadyExistsException;
-import syriangraph.SyrianEdge;
-import syriangraph.SyrianVertex;
 
 import exceptions.VertexAlreadyExistsException;
 
@@ -70,6 +68,20 @@ public abstract class BaseGraph<V extends Vertex<E, V>, E extends Edge<V, E>>
 			}
 		}
 		return null;
+	}
+
+	public void parseVerticesFromfile(String num) throws VertexAlreadyExistsException {
+		System.out.println("Got " + num + " vertices from file");
+		for (int i=0; i<Integer.parseInt(num); i++){
+			this.addVertex();
+		}
+	}
+	
+	public void parseEdgeFromFile(String v1Num, String v2Num/*, String weight, String blocked*/) throws EdgeAlreadyExistsException{
+		System.out.println("Got edge v1:"+v1Num+" v2:"+v2Num/*+" w:"+weight+" b:"+blocked*/);
+		V v1 = this.getVertexByNumber(Integer.parseInt(v1Num));
+		V v2 = this.getVertexByNumber(Integer.parseInt(v2Num));
+		this.addEdge(v1, v2);
 	}
 
 }

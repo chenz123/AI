@@ -22,7 +22,10 @@ public interface Graph<V, E> {
 	public V getVertexByNumber(int num, boolean b) throws VertexAlreadyExistsException;
 	
 	public V addVertex() throws VertexAlreadyExistsException;
+	
 	public V addVertex(V v) throws VertexAlreadyExistsException;
+	
 	public E addEdge(V v1, V v2) throws EdgeAlreadyExistsException;
+	
 	public E getEdgeByVertices(V v1, V v2);
 }

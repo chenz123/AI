@@ -5,7 +5,6 @@ import java.util.Scanner;
 import exceptions.VertexHasNoChemicalsException;
 import exceptions.VertexHasNoMilitaryException;
 import exceptions.VertexNotPartOfEdgeException;
-import syriangraph.SyrianEdge;
 import syriangraph.SyrianGraph;
 import syriangraph.SyrianVertex;
 

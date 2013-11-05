@@ -9,7 +9,7 @@ public class BaseEdge<V extends Vertex<E, V>, E extends Edge<V, E>> implements
 	private long weight;
 	private String name;
 	private V v1, v2;
-	private static int ids = 0;
+	private static int ids = 1;
 
 	public BaseEdge(V v1, V v2) {
 		this.v1 = v1;

@@ -6,7 +6,7 @@ import graph.Weighted;
 
 //public class SyrianEdge implements Edge{
 
-public class SyrianEdge extends BaseEdge<SyrianVertex, SyrianEdge> implements Blockable, Weighted{
+public class SyrianEdge extends BaseEdge<SyrianVertex, SyrianEdge> implements Weighted, Blockable{
 
 	private boolean blocked;
 	private long weight;
@@ -18,7 +18,7 @@ public class SyrianEdge extends BaseEdge<SyrianVertex, SyrianEdge> implements Bl
 	}
 
 	public SyrianEdge(SyrianVertex v1, SyrianVertex v2) {
-		super(v1, v1);
+		super(v1, v2);
 		this.setWeight(0);
 		this.blocked = false;
 	}
@@ -34,5 +34,10 @@ public class SyrianEdge extends BaseEdge<SyrianVertex, SyrianEdge> implements Bl
 			throw new EdgeNotBlockedException("Edge "+this.toString()+" was not blocked while clearing was attempted");
 		}
 		this.blocked = false;
+	}
+
+	@Override
+	public void setBlocked(boolean b) {
+		this.blocked = b;
 	}
 }
