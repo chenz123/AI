@@ -100,6 +100,7 @@ public abstract class BaseGraph<V extends Vertex<E, V>, E extends Edge<V, E>>
 		FileWriter fw = new FileWriter(outf);
 
 		String sep = System.getProperty("line.separator");
+		fw.write("graph{" + sep);
 		for (V v : this.getVertices()) {
 			fw.write(v.getNumber() + ";" + sep);
 		}
@@ -108,6 +109,7 @@ public abstract class BaseGraph<V extends Vertex<E, V>, E extends Edge<V, E>>
 			fw.write(e.getV1().getNumber() + " -- " + e.getV2().getNumber()
 					+ ";" + sep);
 		}
+		fw.write("}");
 		fw.close();
 	}
 }
