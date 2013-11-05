@@ -1,63 +1,33 @@
 package agents;
 
-import java.io.IOException;
-
-import aiutils.Utils;
-
-import exceptions.NoMoreMovesException;
-import exceptions.VertexNotPartOfEdgeException;
 import graph.Edge;
 import graph.BaseGraph;
 import graph.Vertex;
 
 public abstract class BaseAgent<G extends BaseGraph<V, E>, V extends Vertex<E, V>, E extends Edge<V, E>> implements Agent<G, V, E>{
 
+	@SuppressWarnings("unused")
 	private static final String AGENT_COLOR = "blue";
-	private V location;
-	private G graph;
 	private long score;
+	private String name;
 	
-	public BaseAgent(G graph, V start){
-		this.graph = graph;
-		this.location = start;
+	private static int ids=1;
+	
+	public BaseAgent(){
+		this.score = 0;
+		this.name = "BaseAgent" + BaseAgent.ids++;
 	}
 
 	@Override
-	public long drive(E e) throws VertexNotPartOfEdgeException, NoMoreMovesException {
-		// make sure this is a valid move
-		if (e.hasVertex(this.location)){
-			// move agent
-			this.location = e.otherVertex(this.location);
-			// update score
-			this.score += e.getWeight();
-			return e.getWeight();
-		}
-		
+	public void noOp() {
+	}
+
+	public long getScore(){
 		return this.score;
 	}
-
-	@Override
-	public int noOp() {
-		return 0;
-	}
-
-	@Override
-	public V getLocation() {
-		return this.location;
-	}
-
-	@Override
-	public G getGraph() {
-		return this.graph;
-	}
 	
-	public void exportToDotFile(String filename) throws IOException {
-
-		String sep = System.getProperty("line.separator");
-		String res = this.getGraph().getDotFileStatements();
-		
-		res += this.getLocation().getNumber()+"[color="+BaseAgent.AGENT_COLOR+"]" + sep;
-		Utils.writeFile(res, filename);
+	public String getName(){
+		return this.name;
 	}
 
 }

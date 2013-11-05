@@ -42,5 +42,8 @@ public class SyrianEdge extends BaseEdge<SyrianVertex, SyrianEdge> implements Bl
 		this.blocked = b;
 	}
 
+
+	
+
 	
 }

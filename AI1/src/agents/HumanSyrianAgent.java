@@ -1,121 +1,80 @@
 package agents;
 
+import java.util.AbstractCollection;
 import java.util.Scanner;
 
-import exceptions.VertexHasNoChemicalsException;
-import exceptions.VertexHasNoMilitaryException;
 import exceptions.VertexNotPartOfEdgeException;
+
 import syriangraph.SyrianEdge;
 import syriangraph.SyrianGraph;
 import syriangraph.SyrianVertex;
 
-public class HumanSyrianAgent
-		extends BaseSyrianAgent {
-
-	public HumanSyrianAgent(SyrianGraph graph, SyrianVertex start) {
-		super(graph, start);
-	}
+public class HumanSyrianAgent extends BaseSyrianAgent {
 
 	private Scanner sc = new Scanner(System.in);
-	// stores user selection to take escort or chemicals
-	private boolean military, chemicals;
-
 
 	@Override
-	public void decide() {
-		int selection = -1;
+	public SyrianEdge getNextMove(SyrianGraph graph, SyrianVertex location) {
 
-		System.out.println("Choose an action number:");
-		System.out.println("1. Move");
-		System.out.println("2. Set chemicals");
-		System.out.println("3. Set escort");
-		System.out.println("*. Done");
-
-		switch (selection) {
-		case 1:
-			try {
-				this.chooseDestination();
-			} catch (VertexNotPartOfEdgeException e) {
-				// this shouldn't happen lol
-				System.out.println("Sorry for this error, but it "
-						+ "appears you can't drive there!"
-						+ " This is definitely the coders' bug!");
+		// take chemicals if you want
+		if (location.hasChemicals()) {
+			System.out.println("Do you want to take chemicals? (y/n)");
+			String selection = sc.next();
+			while (!selection.equalsIgnoreCase("y")
+					&& !selection.equalsIgnoreCase("n")) {
+				System.out
+						.println("Please insert Y for taking chemicals or N for not taking them.");
+				selection = sc.next();
 			}
-			break;
-		case 2:
-			try {
-				this.setChemicals();
-			} catch (VertexHasNoChemicalsException vhnce) {
-				System.out.println(vhnce.getMessage());
+
+			if (selection.equalsIgnoreCase("Y")) {
+				this.setChemicals(true);
 			}
-			break;
-		case 3:
-			try {
-				this.setEscort();
-			} catch (VertexHasNoMilitaryException vhnme) {
-				System.out.println(vhnme.getMessage());
+		}
+
+		// ask for military if you want
+		if (location.hasMilitary()) {
+			System.out.println("Do you want to take military? (y/n)");
+			String selection = sc.next();
+			while (!selection.equalsIgnoreCase("y")
+					&& !selection.equalsIgnoreCase("n")) {
+				System.out
+						.println("Please insert Y for taking military or N for not taking military.");
+				selection = sc.next();
 			}
-			decide();
-			break;
 
+			if (selection.equalsIgnoreCase("Y")) {
+				this.setMilitary(true);
+			}
 		}
 
+		System.out.println("Select a number to go to destination:");
+		AbstractCollection<SyrianEdge> optsCollection = location.getEdges();
+		SyrianEdge opts[] = new SyrianEdge[optsCollection.size()];
+		optsCollection.toArray(opts);
+
+		// AbstractCollection<SyrianVertex> neighboursCollection =
+		// location.getNeighbours();
+		// SyrianVertex neighbours[] = new
+		// SyrianVertex[neighboursCollection.size()];
+		// neighboursCollection.toArray(neighbours);
+		for (int opt = 0; opt < opts.length; opt++) {
+			SyrianEdge current = opts[opt];
+			int num = current.getNumber();
+			SyrianVertex v1 = current.getV1();
+			SyrianVertex v2 = current.getV2();
+			long weight = current.getWeight();
+			boolean blocked = current.isBlocked();
+			System.out.println("Enter " + opt + " to go through " + num + "[W:"
+					+ weight + " - " + (blocked ? "BLOCKED!" : "") + "] to "
+					+ (v1 == location ? v2.getNumber() : v1.getNumber()));
+		}
+		int sel = -999;
+		while ((sel = sc.nextInt()) > opts.length && sc.nextInt() < 0) {
+			System.out.println("Please select something within range!");
+		}
+
+		return opts[sel];
 	}
 
-	private void setEscort() throws VertexHasNoMilitaryException {
-		if (!this.getLocation().hasMilitary()) {
-			throw new VertexHasNoMilitaryException("This vertex("
-					+ this.getLocation().getNumber() + ") has no military!");
-		}
-		if (this.military) {
-			System.out.println("1. Don't ask for escort");
-		} else {
-			System.out.println("1. Ask for escort");
-		}
-		System.out.println("*. Back");
-		int selection = sc.nextInt();
-
-		switch (selection) {
-		case 1:
-			this.military = !this.military;
-			break;
-		}
-	}
-
-	private void setChemicals() throws VertexHasNoChemicalsException {
-		if (!this.getLocation().hasChemicals()) {
-			throw new VertexHasNoChemicalsException("This vertex("
-					+ this.getLocation().getNumber() + ") has no chemicals!");
-		}
-		if (this.chemicals) {
-			System.out.println("1. Don't take chemicals");
-		} else {
-			System.out.println("1. Take chemicals");
-		}
-		System.out.println("*. Back");
-		int selection = sc.nextInt();
-
-		switch (selection) {
-		case 1:
-			this.chemicals = !this.chemicals;
-			break;
-		}
-	}
-
-	private void chooseDestination() throws VertexNotPartOfEdgeException {
-		int selectionStart = 1;
-		for (SyrianVertex v : this.getLocation().getNeighbours()) {
-			System.out.println(selectionStart + ". Move to vertex "
-					+ v.getNumber() + "("
-					+ (v.hasMilitary() ? "HAS MILITARY " : " ")
-					+ (v.hasChemicals() ? "HAS CHEMICALS" : "")
-					+ (v.hasChemicals() ? "-BLOCKED" : "") + ")");
-		}
-	}
-
-	@Override
-	public SyrianEdge chooseMove() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
