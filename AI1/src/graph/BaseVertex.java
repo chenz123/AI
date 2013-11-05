@@ -11,9 +11,9 @@ public class BaseVertex<V extends Vertex<E, V>, E extends Edge<V, E>>
 	private int number;
 	private String name;
 	private AbstractCollection<E> edges;
-
-	public BaseVertex(int number) {
-		this.setNumber(number);
+	private static int ids = 0;
+	public BaseVertex() {
+		this.setNumber(BaseVertex.ids++);
 	}
 
 	@Override

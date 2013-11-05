@@ -36,10 +36,10 @@ public class SyrianGraph extends BaseGraph<SyrianVertex, SyrianEdge> {
 
 	}
 
-	private void processInitCMD(String cmd){
+	private void processInitCMD(String cmd) {
 		System.out.println("Processing cmd:" + cmd);
-			if (cmd_map)
-		
+		// if (cmd_map)
+
 	}
 
 	private Readable File(String filename) {
@@ -61,17 +61,54 @@ public class SyrianGraph extends BaseGraph<SyrianVertex, SyrianEdge> {
 	}
 
 	@Override
-	public SyrianVertex addVertex(int num) {
-		this.addVertex(new SyrianVertex(num));
+	public SyrianVertex addVertex() throws VertexAlreadyExistsException {
+		SyrianVertex v = new SyrianVertex();
+		this.addVertex(v);
+		return v;
 	}
 
 	@Override
-	public SyrianVertex addVertex(SyrianVertex v) throws VertexAlreadyExistsException {
+	public SyrianVertex addVertex(SyrianVertex v)
+			throws VertexAlreadyExistsException {
 		if (null == this.getVertexByNumber(v.getNumber())) {
 			this.getVertices().add(v);
 		}
 		throw new VertexAlreadyExistsException("Vertex " + v.getNumber()
 				+ " already exists in graph.");
+	}
+
+	// @Override
+	// public SyrianEdge addEdge(SyrianVertex v1, SyrianVertex v2, long weight,
+	// boolean blocked) throws EdgeAlreadyExistsException {
+	// if (null == this.getEdgeByVertices(v1, v2)){
+	// throw new EdgeAlreadyExistsException("Edge "+new SyrianEdge(v1,
+	// v2).toString()+" already exists in graph.");
+	// }
+	// SyrianEdge e = new SyrianEdge(v1, v2, weight, blocked);
+	// this.getEdges().add(e);
+	// return e;
+	// }
+
+	public SyrianEdge addEdge(SyrianVertex v1, SyrianVertex v2) throws EdgeAlreadyExistsException {
+		if (null == this.getEdgeByVertices(v1, v2)) {
+			throw new EdgeAlreadyExistsException("Edge(" + v1.getNumber() + ","
+					+ v2.getNumber() + " already exists in graph.");
+		}
+		SyrianEdge e = new SyrianEdge(v1, v2);
+		this.getEdges().add(e);
+		return e;
+	}
+
+	public SyrianEdge addEdge(SyrianVertex v1, SyrianVertex v2, long weight,
+			boolean blocked) throws EdgeAlreadyExistsException {
+		if (null == this.getEdgeByVertices(v1, v2)) {
+			throw new EdgeAlreadyExistsException("Edge between "
+					+ v1.getNumber() + " and " + v2.getNumber()
+					+ " already exists in graph.");
+		}
+		SyrianEdge e = new SyrianEdge(v1, v2, weight, blocked);
+		this.getEdges().add(e);
+		return e;
 	}
 
 }

@@ -7,7 +7,7 @@ public class SyrianVertex extends BaseVertex<SyrianVertex, SyrianEdge>{
 	private boolean hasMilitary, hasChemicals, isGoal;
 	
 	public SyrianVertex(int number, boolean hasChemicals, boolean hasMilitary, boolean isGoal){
-		super(number);
+		super();
 		this.hasChemicals = hasChemicals;
 		this.hasMilitary = hasMilitary;
 		this.isGoal = isGoal;
@@ -17,8 +17,8 @@ public class SyrianVertex extends BaseVertex<SyrianVertex, SyrianEdge>{
 	 * Syrian-specific attributes, methods etc.
 	 */
 	
-	public SyrianVertex(int num) {
-		super(num);
+	public SyrianVertex() {
+		super();
 	}
 
 	public boolean hasChemicals(){
