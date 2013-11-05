@@ -3,20 +3,38 @@ package syriangraph;
 import graph.BaseGraph;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
-public class SyrianGraph<V extends SyrianVertex<E, V>, E extends SyrianEdge<V, E>> extends
-		BaseGraph<V, E> {
+public class SyrianGraph extends
+		BaseGraph<SyrianVertex, SyrianEdge> {
 
-	public SyrianGraph(AbstractCollection<V> vertices,
-			AbstractCollection<E> edges) {
+	public SyrianGraph(AbstractCollection<SyrianVertex> vertices,
+			AbstractCollection<SyrianEdge> edges) {
 		super(vertices, edges);
 	}
+	
+	public SyrianGraph(String filename) throws FileNotFoundException {
+		super(null, null);
+		Scanner sc = new Scanner(new File(filename));
+		System.out.println("Reading file to syrian graph!");
+		while (sc.hasNext()) System.out.println("Next: " + sc.next());
+		// TODO CONTINUE
+		
+	}
+	
 
-	public AbstractCollection<E> getEdgesForVertex(SyrianVertex v) {
+	private Readable File(String filename) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		AbstractCollection<E> res = new ArrayList<E>();
+	public AbstractCollection<SyrianEdge> getEdgesForVertex(SyrianVertex v) {
+
+		AbstractCollection<SyrianEdge> res = new ArrayList<SyrianEdge>();
 		// collect all edges for a given vertex
-		for (E e : getEdges()) {
+		for (SyrianEdge e : getEdges()) {
 			if (e.getV1() == v || e.getV2() == v) {
 				res.add(e);
 			}

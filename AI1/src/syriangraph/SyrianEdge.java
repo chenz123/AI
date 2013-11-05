@@ -4,7 +4,7 @@ import graph.BaseEdge;
 
 //public class SyrianEdge implements Edge{
 
-public class SyrianEdge<V extends SyrianVertex<E, V>, E extends SyrianEdge<V, E>> extends BaseEdge<V, E>{
+public class SyrianEdge extends BaseEdge<SyrianVertex, SyrianEdge>{
 
 	public SyrianEdge(int number) {
 		super(number);

@@ -2,28 +2,24 @@ package agents;
 
 import java.util.Scanner;
 
-import exceptions.NoMoreMovesException;
 import exceptions.VertexHasNoChemicalsException;
 import exceptions.VertexHasNoMilitaryException;
 import exceptions.VertexNotPartOfEdgeException;
-import graph.Edge;
-import graph.Vertex;
-
 import syriangraph.SyrianEdge;
 import syriangraph.SyrianGraph;
 import syriangraph.SyrianVertex;
 
-public class HumanSyrianAgent<G extends SyrianGraph<V, E>, V extends SyrianVertex<E, V>, E extends SyrianEdge<V, E>>
-		extends BaseSyrianAgent<G, V, E> {
+public class HumanSyrianAgent
+		extends BaseSyrianAgent {
+
+	public HumanSyrianAgent(SyrianGraph graph, SyrianVertex start) {
+		super(graph, start);
+	}
 
 	private Scanner sc = new Scanner(System.in);
 	// stores user selection to take escort or chemicals
 	private boolean military, chemicals;
 
-	public HumanSyrianAgent(G graph,
-			V start) {
-		super(graph, start);
-	}
 
 	@Override
 	public void decide() {
@@ -108,7 +104,7 @@ public class HumanSyrianAgent<G extends SyrianGraph<V, E>, V extends SyrianVerte
 
 	private void chooseDestination() throws VertexNotPartOfEdgeException {
 		int selectionStart = 1;
-		for (V v : this.getLocation().getNeighbours()) {
+		for (SyrianVertex v : this.getLocation().getNeighbours()) {
 			System.out.println(selectionStart + ". Move to vertex "
 					+ v.getNumber() + "("
 					+ (v.hasMilitary() ? "HAS MILITARY " : " ")
