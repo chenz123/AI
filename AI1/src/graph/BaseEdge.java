@@ -9,7 +9,9 @@ public class BaseEdge<V extends Vertex<E, V>, E extends Edge<V, E>> implements E
 	private String name;
 	private V v1, v2;
 	
-	public BaseEdge(int number){
+	public BaseEdge(int number, V v1, V v2){
+		this.v1 = v1;
+		this.v2 = v2;
 		this.setNumber(number);
 	}
 	
