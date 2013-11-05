@@ -17,6 +17,10 @@ public class SyrianVertex extends BaseVertex<SyrianVertex, SyrianEdge>{
 	 * Syrian-specific attributes, methods etc.
 	 */
 	
+	public SyrianVertex(int num) {
+		super(num);
+	}
+
 	public boolean hasChemicals(){
 		return this.hasChemicals;
 	}

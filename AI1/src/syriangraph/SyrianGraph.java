@@ -1,13 +1,18 @@
 package syriangraph;
 
+import exceptions.VertexAlreadyExistsException;
 import graph.BaseGraph;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Method;
 
 public class SyrianGraph extends BaseGraph<SyrianVertex, SyrianEdge> {
+
+	private HashMap<String, Method> cmd_map;
 
 	public SyrianGraph(AbstractCollection<SyrianVertex> vertices,
 			AbstractCollection<SyrianEdge> edges) {
@@ -16,6 +21,13 @@ public class SyrianGraph extends BaseGraph<SyrianVertex, SyrianEdge> {
 
 	public SyrianGraph(String filename) throws FileNotFoundException {
 		super();
+		// define parsing functions in hashmap
+		cmd_map = new HashMap<String, Method>();
+		// cmd_map.put("#V", parseVerticesDefinition());
+		// cmd_map.put("#E", parsEdgeDefinition());
+		// cmd_map.put("#C", parseChemicalDefinition());
+		// cmd_map.put("#M", parseMilitaryDefinition());
+
 		Scanner sc = new Scanner(new File(filename));
 		System.out.println("Reading file to syrian graph!");
 		while (sc.hasNext())
@@ -26,14 +38,7 @@ public class SyrianGraph extends BaseGraph<SyrianVertex, SyrianEdge> {
 
 	private void processInitCMD(String cmd){
 		System.out.println("Processing cmd:" + cmd);
-			switch (cmd){
-				case 'V': // number of vertices in graph
-					for (int i = 0; i < Integer.parseInt(line.substring(2)); i++)
-						this.getVertices().add(new SyrianVertex(i, false, false, false));
-					break;
-				case 'E': // edge definition
-					this.getEdges().add(new SyrianEdge())
-			}
+			if (cmd_map)
 		
 	}
 
@@ -53,6 +58,20 @@ public class SyrianGraph extends BaseGraph<SyrianVertex, SyrianEdge> {
 		}
 
 		return res;
+	}
+
+	@Override
+	public SyrianVertex addVertex(int num) {
+		this.addVertex(new SyrianVertex(num));
+	}
+
+	@Override
+	public SyrianVertex addVertex(SyrianVertex v) throws VertexAlreadyExistsException {
+		if (null == this.getVertexByNumber(v.getNumber())) {
+			this.getVertices().add(v);
+		}
+		throw new VertexAlreadyExistsException("Vertex " + v.getNumber()
+				+ " already exists in graph.");
 	}
 
 }
