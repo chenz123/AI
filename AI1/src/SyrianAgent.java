@@ -32,10 +32,27 @@ public abstract class SyrianAgent extends BaseAgent<SyrianGraph, SyrianVertex, S
 		if (this.hasEscort){
 			throw new AgentAlreadyHasEscortException(this);
 		}
-		if (!this.getLocation().hasChemicals()){
+		if (!this.getLocation().hasEscort()){
 			throw new LocationDoesntHaveEscortException(this);
 		}
 			this.getLocation().setEscort(this.getLocation().getEscortCount() - 1);
 			this.hasEscort = true;
+	}
+	
+	public void dropEscort() throws AgentHasNoEscortException{
+		if (!this.hasEscort){
+			throw new AgentHasNoEscortException(this);
+		}
+		
+		this.getLocation().addEscort(1);
+		this.hasEscort = false;
+	}
+	
+	public void dropChemicals() throws AgentHasNoChemicalsException{
+		if (!this.hasChemicals){
+			throw new AgentHasNoChemicalsException(this);
+		}
+		this.getLocation().addChemicals(1);
+		this.hasChemicals = false;
 	}
 }

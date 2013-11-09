@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -86,5 +87,54 @@ public class SyrianGraph extends BaseGraph<SyrianVertex, SyrianEdge> {
 		return newVertex;
 	}
 
+	public AbstractCollection<SyrianVertex> getVerticesWithEscort() {
+		AbstractCollection<SyrianVertex> result = new ArrayList<SyrianVertex>();
+		
+		for (SyrianVertex v : this.getVertices()){
+			if (v.hasEscort()){
+				result.add(v);
+			}
+		}
+		
+		return result;
+	}
 
+	public AbstractCollection<SyrianVertex> getVerticesWithChemicals() {
+		AbstractCollection<SyrianVertex> result = new ArrayList<SyrianVertex>();
+		
+		for (SyrianVertex v : this.getVertices()){
+			if (v.hasChemicals()){
+				result.add(v);
+			}
+		}
+		
+		return result;
+	}
+	
+	public AbstractCollection<SyrianEdge> getEdgesWithTerrorists(){
+		AbstractCollection<SyrianEdge> result = new ArrayList<SyrianEdge>();
+		
+		for (SyrianEdge e : this.getEdges()){
+			if (e.hasTerrorists()){
+				result.add(e);
+			}
+		}
+		
+		return result;
+	}
+	
+	public AbstractCollection<SyrianVertex> getVerticesAdjacentToTerrorists(){
+		AbstractCollection<SyrianVertex> result = new ArrayList<SyrianVertex>();
+		
+		for (SyrianEdge e : this.getEdgesWithTerrorists()){
+			if (!result.contains(e.getV1())){
+				result.add(e.getV1());
+			}
+			if (!result.contains(e.getV2())){
+				result.add(e.getV2());
+			}
+		}
+		
+		return result;
+	}
 }

@@ -1,9 +1,8 @@
 
-public class BaseVertex implements Vertex{
+public class BaseVertex<V extends Vertex> implements Vertex{
 
 	private int number;
 	private static int ids = 1;
-	
 	
 	public BaseVertex(){
 		this.number = BaseVertex.ids++;
@@ -13,5 +12,4 @@ public class BaseVertex implements Vertex{
 	public int getNumber() {
 		return this.number;
 	}
-
 }

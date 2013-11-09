@@ -63,6 +63,8 @@ public class SyrianSimulation extends
 
 		// move agent
 		a.setLocation(destination);
+		System.out.println("After moving, agent " + a.getName()
+				+ "'s score is: " + a.getScore());
 	}
 
 	public void toDotFile(String filename) {
@@ -72,17 +74,26 @@ public class SyrianSimulation extends
 
 		// vertices
 		for (SyrianVertex v : this.getGraph().getVertices()) {
-			out += v.getNumber() + ";" + sep;
+			out += v.getNumber() + "[label = \"Chemicals: "
+					+ v.getChemicalCount() + " \\nMilitary: "
+					+ v.getEscortCount();
+			for (SyrianAgent a : this.getAgentsInVertex(v)) {
+				out += "\\n" + a.getName() + " (SCORE: " + a.getScore() + " | "
+						+ (a.hasChemicals() ? "C" : "")
+						+ (a.hasEscort() ? "E" : "") + ")";
+			}
+			out += "\"];" + sep;
 		}
 
-		// agents
-		for (SyrianAgent a : this.getAgents()) {
-			out += a.getLocation().getNumber() + " [ label = \"" + a.getName()
-					+ "\"];" + sep;
-		}
+		// // agents
+		// for (SyrianAgent a : this.getAgents()) {
+		// out += a.getLocation().getNumber() + " [ label = \"" + a.getName()
+		// + "\\nScore: " +a.getScore() + "\"];" + sep;
+		// }
 		for (SyrianEdge e : this.getGraph().getEdges()) {
-			out += e.getV1().getNumber() + " -- " + e.getV2().getNumber() + "[ label = \"" + e.getNumber()+"(W:"+e.getWeight()+", T:"+(e.hasTerrorists() ? "Y" : "N") +"\"];"
-					+ sep;
+			out += e.getV1().getNumber() + " -- " + e.getV2().getNumber()
+					+ "[ label = \"" + e.getNumber() + "(W:" + e.getWeight()
+					+ ", T:" + (e.hasTerrorists() ? "Y" : "N") + ")\"];" + sep;
 		}
 
 		out += "}";
@@ -94,4 +105,5 @@ public class SyrianSimulation extends
 			e1.printStackTrace();
 		}
 	}
+
 }

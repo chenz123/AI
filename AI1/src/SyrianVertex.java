@@ -1,5 +1,5 @@
 
-public class SyrianVertex extends BaseVertex{
+public class SyrianVertex extends BaseVertex<SyrianVertex>{
 
 	private int escort, chemicals;
 

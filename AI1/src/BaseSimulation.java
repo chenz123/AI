@@ -63,4 +63,15 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 		this.graph = graph;
 	}
 
+	
+	public AbstractCollection<A> getAgentsInVertex(V v){
+		AbstractCollection<A> res = new ArrayList<A>();
+		for (A a: this.getAgents()){
+			if (a.getLocation() == v){
+				res.add(a);
+			}
+		}
+		
+		return res;
+	}
 }

@@ -1,4 +1,5 @@
 import java.util.AbstractCollection;
+import java.util.HashMap;
 
 
 public interface Graph<V extends Vertex, E extends Edge<V>> {
@@ -14,4 +15,8 @@ public interface Graph<V extends Vertex, E extends Edge<V>> {
 	public AbstractCollection<E> getEdges();
 	public AbstractCollection<V> getVertices();
 	public V getVertexByNumber(int number);
+	
+	public HashMap<String, HashMap<Integer,Integer>> shortestPathsAll(V src);
+	
+	public AbstractCollection<E> getEdgesFor(V v1, V v2);
 }

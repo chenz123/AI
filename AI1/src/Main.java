@@ -16,8 +16,8 @@ public class Main {
 			return;
 		}
 
-		s.addAgent(new SyrianHumanAgent("Human Syrian Agent 1"), s.getGraph().getVertexByNumber(1));
-		s.addAgent(new SyrianTerroristBusterAgent("Syrian Terrorist Buster Agent"), s.getGraph().getVertexByNumber(2));
+		s.addAgent(new SyrianHumanAgent("Human 1"), s.getGraph().getVertexByNumber(1));
+		s.addAgent(new SyrianTerroristBusterAgent("Terrorist Buster 1"), s.getGraph().getVertexByNumber(2));
 		int turn = 0;
 		
 		while (s.agentsHaveMovesLeft()) {

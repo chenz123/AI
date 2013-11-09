@@ -16,4 +16,6 @@ public interface Simulation<G extends Graph<V, E>, A extends Agent<G, V, E>, V e
 	public AbstractCollection<A> getAgents();
 	
 	public void setGraph(G graph);
+	
+	public AbstractCollection<A> getAgentsInVertex(V v);
 }
