@@ -7,6 +7,8 @@ public abstract class BaseAgent<G extends Graph<V, E>, V extends Vertex, E exten
 	private V location;
 	private String name;
 	private int score;
+	private int chemicalsEvacuated;
+	private int terroristsBusted;
 /*
 	public BaseAgent(String name) {
 		this.name = name;
@@ -18,6 +20,8 @@ public abstract class BaseAgent<G extends Graph<V, E>, V extends Vertex, E exten
 		this.target = target;
 		this.name = name;
 		this.score = 0;
+		this.chemicalsEvacuated = 0;
+		this.terroristsBusted = 0;
 	}
 
 	public String getName() {
@@ -41,6 +45,8 @@ public abstract class BaseAgent<G extends Graph<V, E>, V extends Vertex, E exten
 			return this.getMove(graph) != null;
 		} catch (agentHasNoMoveException e) {
 			return false;
+		} catch (AgentIsDoneException e) {
+			return false; // will be removed later (TODO: think if this is good...)
 		}
 	}
 
@@ -63,5 +69,21 @@ public abstract class BaseAgent<G extends Graph<V, E>, V extends Vertex, E exten
 	
 	public void setTarget(V target){
 		this.target = target;
+	}
+	
+	public void setChemicalsEvacuated(int num){
+		this.chemicalsEvacuated = num;
+	}
+	
+	public int getChemicalsEvacuated(){
+		return this.chemicalsEvacuated;
+	}
+	
+	public int getTerroristsBusted(){
+		return this.terroristsBusted;
+	}
+	
+	public void setTerroristsBusted(int te){
+		this.terroristsBusted = te;
 	}
 }

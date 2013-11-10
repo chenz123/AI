@@ -11,10 +11,11 @@ public class SyrianSimulation extends
 	}
 
 	@Override
-	public void moveAgent(SyrianAgent a) throws agentHasNoMoveException {
-
+	public void moveAgent(SyrianAgent a) throws agentHasNoMoveException, AgentIsDoneException {
+		a.move(this.getGraph());
+		/*
 		SyrianEdge path = a.getMove(this.getGraph());
-
+		
 		System.out.println("Agent " + a.getName() + " is moving from "
 				+ a.getLocation().getNumber() + " to "
 				+ path.getOther(a.getLocation()).getNumber());
@@ -65,6 +66,7 @@ public class SyrianSimulation extends
 		a.setLocation(destination);
 		System.out.println("After moving, agent " + a.getName()
 				+ "'s score is: " + a.getScore());
+		*/
 	}
 
 	public void toDotFile(String filename) {
@@ -74,7 +76,7 @@ public class SyrianSimulation extends
 
 		// vertices
 		for (SyrianVertex v : this.getGraph().getVertices()) {
-			out += v.getNumber() + "[label = \"Chemicals: "
+			out += v.getNumber() + "[label = \"Vertex #" + v.getNumber() + "\\nChemicals: "
 					+ v.getChemicalCount() + " \\nMilitary: "
 					+ v.getEscortCount();
 			for (SyrianAgent a : this.getAgentsInVertex(v)) {

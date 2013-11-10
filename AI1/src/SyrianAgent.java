@@ -62,4 +62,64 @@ public abstract class SyrianAgent extends BaseAgent<SyrianGraph, SyrianVertex, S
 		this.getLocation().addChemicals(1);
 		this.hasChemicals = false;
 	}
+	
+	public void move(SyrianGraph g) throws agentHasNoMoveException, AgentIsDoneException{
+		SyrianEdge path = this.getMove(g);
+
+		System.out.println("Agent " + this.getName() + " is moving from "
+				+ this.getLocation().getNumber() + " to "
+				+ path.getOther(this.getLocation()).getNumber());
+		SyrianVertex destination = path.getOther(this.getLocation());
+
+		// calculate score
+		int factor = 1;
+
+		if (path.hasTerrorists()) {
+
+			// entered hostile territory
+			if (!this.hasEscort()) {
+				if (this.hasChemicals()) {
+
+					// major factor for going unescorted through
+					// hostile territory!
+					factor *= 1000;
+				} else {
+					// driving unescorted through terrorists
+					// this is OK according to mission description
+					// TODO: ask
+
+				}
+			} else { // has escort
+				if (this.hasChemicals()) {
+					// TODO: ask if that's the right behaviour
+					// driving escorted through edge
+					// ** doesn't clear edge **
+					// nothing happens (but regular side-effects)
+				} else {
+					this.setTerroristsBusted(this.getTerroristsBusted() + 1);
+					// clear path
+					path.clearTerrorists();
+				}
+			}
+			
+			if (this.hasChemicals() && path.getOther(this.getLocation()) == this.getTarget()){
+					this.setChemicalsEvacuated(this.getChemicalsEvacuated() + 1);
+			}
+
+		}
+
+		// multipliers
+		factor *= this.hasChemicals() ? 2 : 1;
+		factor *= this.hasEscort() ? 2 : 1;
+
+		// regular side effects of traversing
+		int totalCost = factor * path.getWeight();
+
+		this.addScore(totalCost);
+
+		// move agent
+		this.setLocation(destination);
+		System.out.println("After moving, agent " + this.getName()
+				+ "'s score is: " + this.getScore());
+	}
 }

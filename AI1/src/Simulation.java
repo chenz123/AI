@@ -5,9 +5,9 @@ public interface Simulation<G extends Graph<V, E>, A extends Agent<G, V, E>, V e
 
 	public boolean agentsHaveMovesLeft();
 
-	public void moveAgents() throws agentHasNoMoveException;
+	public void moveAgents() throws agentHasNoMoveException, NoAgentsInSimulationException;
 	
-	public void moveAgent(A a) throws agentHasNoMoveException;
+	public void moveAgent(A a) throws agentHasNoMoveException, AgentIsDoneException;
 
 	public void addAgent(A agent);
 
@@ -18,4 +18,8 @@ public interface Simulation<G extends Graph<V, E>, A extends Agent<G, V, E>, V e
 	public void setGraph(G graph);
 	
 	public AbstractCollection<A> getAgentsInVertex(V v);
+
+	public void printScores();
+
+	public void toDotFile(String filename);
 }

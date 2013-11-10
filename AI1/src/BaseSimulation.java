@@ -6,10 +6,14 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 
 	private G graph;
 	private AbstractCollection<A> agents;
+	private AbstractCollection<A> finishedAgents;
+
+	private static int MOVE = 0;
 
 	public BaseSimulation(G g) {
 		this.graph = g;
 		this.agents = new ArrayList<A>();
+		this.finishedAgents = new ArrayList<A>();
 	}
 
 	@Override
@@ -29,8 +33,12 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 	}
 
 	@Override
-	public void moveAgents() {
+	public void moveAgents() throws NoAgentsInSimulationException {
+		if (this.agents.size() == 0){
+			throw new NoAgentsInSimulationException();
+		}
 		for (A a : this.getAgents()) {
+			this.toDotFile("Move"+(BaseSimulation.MOVE++)+"Before.dot");
 			try {
 				System.out.println("Moving agent " + a.getName());
 				this.moveAgent(a);
@@ -38,8 +46,13 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 				System.out.println("Agent " + a.getName()
 						+ "does not have any moves left - doing no-op");
 				a.noOp();
+			} catch (AgentIsDoneException e) {
+				System.out.println("Agent "+a.getName() +" removed from simulation");
+				this.finishedAgents.add(a);
 			}
+			this.toDotFile("Move"+(BaseSimulation.MOVE++)+"After.dot");
 		}
+		this.agents.removeAll(this.finishedAgents);
 	}
 
 	@Override
@@ -72,5 +85,14 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 		}
 		
 		return res;
+	}
+	
+	public void printScores(){
+		for (A a : finishedAgents){
+			System.out.println("Agent "+a.getName() + " finished with score: "+a.getScore()+", he busted "+a.getTerroristsBusted() + " terrorists and evacuated "+ a.getChemicalsEvacuated()+" chemicals.");
+		}
+		for (A a : agents){
+			System.out.println("Agent "+a.getName() + " finished with score: "+a.getScore()+", he busted "+a.getTerroristsBusted() + " terrorists and evacuated "+ a.getChemicalsEvacuated()+" chemicals.");
+		}
 	}
 }

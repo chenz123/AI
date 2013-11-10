@@ -74,7 +74,6 @@ public abstract class BaseGraph<V extends Vertex, E extends Edge<V>>
 		HashMap<Integer, Boolean> visited = new HashMap<Integer, Boolean>();
 		HashMap<Integer, Integer> previous = new HashMap<Integer, Integer>();
 		HashMap<String, HashMap<Integer,Integer>> res = new HashMap<String, HashMap<Integer,Integer>>();
-		
 		for (V v : this.getVertices()) {
 			distances.put(v.getNumber(), Integer.MAX_VALUE);
 			visited.put(v.getNumber(), false);
@@ -103,7 +102,7 @@ public abstract class BaseGraph<V extends Vertex, E extends Edge<V>>
 				V neighbour = e.getOther(current);
 				int alternatePath = distances.get(current.getNumber()) + e.getWeight();
 				if (alternatePath < distances.get(neighbour.getNumber())
-						&& visited.get(neighbour.getNumber())) {
+						&& !visited.get(neighbour.getNumber())) {
 					distances.put(neighbour.getNumber(),  alternatePath);
 					previous.put(neighbour.getNumber(), current.getNumber());
 					notVisited.add(neighbour);
