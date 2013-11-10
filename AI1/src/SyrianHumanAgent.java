@@ -6,8 +6,15 @@ public class SyrianHumanAgent extends SyrianAgent {
 
 	private Scanner sc;
 
+	/*
 	public SyrianHumanAgent(String name) {
 		super(name);
+		sc = new Scanner(System.in);
+	}
+	*/
+	
+	public SyrianHumanAgent(String name, SyrianVertex location, SyrianVertex target){
+		super(name, location, target);
 		sc = new Scanner(System.in);
 	}
 

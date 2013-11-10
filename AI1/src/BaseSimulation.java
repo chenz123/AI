@@ -43,9 +43,8 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 	}
 
 	@Override
-	public void addAgent(A agent, V location) {
+	public void addAgent(A agent) {
 		this.agents.add(agent);
-		agent.setLocation(location);
 	}
 
 	@Override

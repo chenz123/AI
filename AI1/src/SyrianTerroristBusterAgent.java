@@ -3,8 +3,8 @@ import java.util.HashMap;
 
 public class SyrianTerroristBusterAgent extends SyrianAgent {
 
-	public SyrianTerroristBusterAgent(String name) {
-		super(name);
+	public SyrianTerroristBusterAgent(String name, SyrianVertex location, SyrianVertex target) {
+		super(name, location, target);
 	}
 
 	@Override
@@ -40,6 +40,10 @@ public class SyrianTerroristBusterAgent extends SyrianAgent {
 				destination = v;
 			}
 		}
+
+		if (destination == null){
+			throw new agentHasNoMoveException(this);
+		}
 		
 		if (this.hasEscort() && distances.get(destination.getNumber()) == 0){
 			// we can move to terrorists! DESTROY THEM!
@@ -49,6 +53,7 @@ public class SyrianTerroristBusterAgent extends SyrianAgent {
 				}
 			}
 		}
+		
 		// backtrack to the vertex we want to move to
 		while (previous.get(destination.getNumber()) != this.getLocation().getNumber())
 			destination = graph.getVertexByNumber(previous.get(destination.getNumber()));

@@ -2,13 +2,20 @@
 public abstract class SyrianAgent extends BaseAgent<SyrianGraph, SyrianVertex, SyrianEdge>{
 
 	private boolean hasEscort, hasChemicals;
-	
+	/*
 	public SyrianAgent(String name) {
 		super(name);
 		this.hasEscort = false;
 		this.hasChemicals = false;
 	}
+	*/
 
+	public SyrianAgent(String name, SyrianVertex location, SyrianVertex target) {
+		super(name, location, target);
+		this.hasEscort = false;
+		this.hasChemicals = false;
+	}
+	
 	public boolean hasEscort() {
 		return this.hasEscort;
 	}

@@ -11,4 +11,7 @@ public interface Agent<G extends Graph<V, E>, V extends Vertex, E extends Edge<V
 	public int addScore(int toAdd);
 	public void noOp();
 	public int getScore();
+	public V getTarget();
+	public void setTarget(V target);
+	
 }

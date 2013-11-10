@@ -9,7 +9,7 @@ public interface Simulation<G extends Graph<V, E>, A extends Agent<G, V, E>, V e
 	
 	public void moveAgent(A a) throws agentHasNoMoveException;
 
-	public void addAgent(A agent, V location);
+	public void addAgent(A agent);
 
 	public G getGraph();
 	
