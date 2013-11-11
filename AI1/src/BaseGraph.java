@@ -67,7 +67,7 @@ public abstract class BaseGraph<V extends Vertex, E extends Edge<V>>
 		return this.vertices;
 	}
 
-	public HashMap<String, HashMap<Integer,Integer>> shortestPathsAll(V src) {
+	public HashMap<String, HashMap<Integer,Integer>> shortestPathsForEdges(V src, AbstractCollection<E> edges) {
 
 		// an implementation of Dijkstra's shortest path algorithm
 		HashMap<Integer, Integer> distances = new HashMap<Integer, Integer>();
@@ -97,8 +97,9 @@ public abstract class BaseGraph<V extends Vertex, E extends Edge<V>>
 			// closest vertex is now in "current"
 			visited.put(current.getNumber(), true);
 			
-			for (E e : this.getAllEdgesForVertex(current)) {
-				// neightbor node is the other vertex on this edge
+			for (E e : edges) {
+				// neighbour node is the other vertex on this edge
+				if (e.hasVertex(current)){
 				V neighbour = e.getOther(current);
 				int alternatePath = distances.get(current.getNumber()) + e.getWeight();
 				if (alternatePath < distances.get(neighbour.getNumber())
@@ -106,6 +107,7 @@ public abstract class BaseGraph<V extends Vertex, E extends Edge<V>>
 					distances.put(neighbour.getNumber(),  alternatePath);
 					previous.put(neighbour.getNumber(), current.getNumber());
 					notVisited.add(neighbour);
+				}
 				}
 			}
 		}
@@ -123,4 +125,5 @@ public abstract class BaseGraph<V extends Vertex, E extends Edge<V>>
 		}
 		return result;
 	}
+	
 }

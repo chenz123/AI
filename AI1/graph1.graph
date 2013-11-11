@@ -1,4 +1,4 @@
-#V 13    ; number of vertices n in graph (from 1 to n)
+#V 16    ; number of vertices n in graph (from 1 to n)
 
 #E 1 2 W1 B   ; Edge from vertex 1 to vertex 2, weight 1, clear
 #E 3 4 W1 B   ; Edge from vertex 3 to vertex 4, weight 1, blocked
@@ -19,9 +19,13 @@
 #E 11 12 W1 C   ; Edge from vertex 2 to vertex 3, weight 1, blocked
 #E 11 12 W1 C   ; Edge from vertex 2 to vertex 3, weight 1, blocked
 #E 10 12 W1 C   ; Edge from vertex 2 to vertex 3, weight 1, blocked
-#E 10 12 W1 C   ; Edge from vertex 2 to vertex 3, weight 1, blocked
+#E 10 12 W11 C   ; Edge from vertex 2 to vertex 3, weight 1, blocked
+#E 13 14 W11 C   ; Edge from vertex 2 to vertex 3, weight 1, blocked
+#E 15 14 W31 C   ; Edge from vertex 2 to vertex 3, weight 1, blocked
+#E 15 16 W11 B   ; Edge from vertex 2 to vertex 3, weight 1, blocked
 
 #C 7 1  ; One unit of chemicals at vertex 7
 #C 1 1  ; One unit of chemicals at vertex 1
+#C 16 1  ; One unit of chemicals at vertex 1
 #M 2 1  ; One unit of military at vertex 2
 #M 11 1  ; One unit of military at vertex 11

@@ -14,7 +14,8 @@ public class SyrianTerroristBusterAgent extends SyrianAgent {
 		
 		System.out.println("location: " + this.getLocation().getNumber());
 		HashMap<String, HashMap<Integer, Integer>> shortestPaths = graph
-				.shortestPathsAll(this.getLocation());
+				.shortestPathsForEdges(this.getLocation(), graph.getEdges());
+		System.out.println("Edges count: "+graph.getEdges().size());
 		HashMap<Integer, Integer> distances = shortestPaths.get("distances");
 		HashMap<Integer, Integer> previous = shortestPaths.get("previous");
 		System.out.println("prevs: " + previous.toString());
@@ -50,6 +51,7 @@ public class SyrianTerroristBusterAgent extends SyrianAgent {
 			
 			return cheapest;
 		}
+		System.out.println("1111");
 		// first pick up escort if needed, simplifies things
 		if (!this.hasEscort() && this.getLocation().hasEscort()) {
 			try {
@@ -65,6 +67,7 @@ public class SyrianTerroristBusterAgent extends SyrianAgent {
 			}
 		}
 
+		System.out.println("2222");
 		// our options vary according to whether or not we have escort with us
 		AbstractCollection<SyrianVertex> options = this.hasEscort() ? graph
 				.getVerticesAdjacentToTerrorists() : graph
@@ -85,6 +88,7 @@ public class SyrianTerroristBusterAgent extends SyrianAgent {
 			throw new agentHasNoMoveException(this);
 		}
 
+		System.out.println("3333");
 		if (this.hasEscort() && distances.get(destination.getNumber()) == 0) {
 			// we can move to terrorists! DESTROY THEM!
 			for (SyrianEdge e : graph.getEdgesWithTerrorists()) {
@@ -96,10 +100,12 @@ public class SyrianTerroristBusterAgent extends SyrianAgent {
 
 		// backtrack to the vertex we want to move to
 		while (previous.get(destination.getNumber()) != this.getLocation()
-				.getNumber())
+				.getNumber()){
 			destination = graph.getVertexByNumber(previous.get(destination
 					.getNumber()));
-
+		}
+		
+		System.out.println("Destination: "+destination.getNumber() + " location: " +this.getLocation().getNumber());
 		SyrianEdge cheapest = null;
 		for (SyrianEdge e : graph.getEdgesFor(this.getLocation(), destination)) {
 			if (cheapest == null
@@ -109,6 +115,8 @@ public class SyrianTerroristBusterAgent extends SyrianAgent {
 				cheapest = e;
 			}
 		}
+
+		System.out.println("4444 "+graph.getEdgesFor(this.getLocation(), destination).size());
 		if (cheapest != null){
 			return cheapest;
 		}

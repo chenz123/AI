@@ -26,6 +26,13 @@ public class Main {
 		s.addAgent(new SyrianTerroristBusterAgent("Terrorist Buster 2", s
 				.getGraph().getVertexByNumber(10), s.getGraph()
 				.getVertexByNumber(4)));
+		
+		s.addAgent(new SyrianGreedyAgent("Greedy 1", s
+				.getGraph().getVertexByNumber(16), s.getGraph()
+				.getVertexByNumber(4)));
+		
+		
+		
 		long turn = System.currentTimeMillis();
 
 		try {
@@ -36,7 +43,7 @@ public class Main {
 				s.moveAgents();
 
 				try {
-					Thread.sleep(10);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

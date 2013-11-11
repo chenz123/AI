@@ -137,4 +137,27 @@ public class SyrianGraph extends BaseGraph<SyrianVertex, SyrianEdge> {
 		
 		return result;
 	}
+
+	public AbstractCollection<SyrianEdge> getUnblockedEdges(){
+		AbstractCollection<SyrianEdge> result = new ArrayList<SyrianEdge>();
+		for (SyrianEdge e : this.getEdges()){
+			if (!e.hasTerrorists()){
+				result.add(e);
+			}
+		}
+		return result;
+	}
+
+	public AbstractCollection<SyrianEdge> getClearEdgesFor(SyrianVertex location,
+			SyrianVertex destination) {
+		
+		AbstractCollection<SyrianEdge> result = new ArrayList<SyrianEdge>();
+		for (SyrianEdge e : this.getEdges()){
+			if (!e.hasTerrorists() && e.hasVertex(location) && e.hasVertex(destination)){
+				result.add(e);
+			}
+		}
+		return result;
+	}
+
 }

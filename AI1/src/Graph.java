@@ -16,7 +16,8 @@ public interface Graph<V extends Vertex, E extends Edge<V>> {
 	public AbstractCollection<V> getVertices();
 	public V getVertexByNumber(int number);
 	
-	public HashMap<String, HashMap<Integer,Integer>> shortestPathsAll(V src);
+	public HashMap<String, HashMap<Integer,Integer>> shortestPathsForEdges(V src, AbstractCollection<E> edges);
 	
 	public AbstractCollection<E> getEdgesFor(V v1, V v2);
+	
 }

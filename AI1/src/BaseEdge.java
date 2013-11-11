@@ -42,7 +42,7 @@ public class BaseEdge<V extends Vertex> implements Edge<V>{
 
 	@Override
 	public boolean hasVertex(V v) {
-		return this.getV1() == v ? true : this.getV2() == v;
+		return this.getV1() == v || this.getV2() == v;
 	}
 
 }
