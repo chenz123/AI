@@ -38,7 +38,7 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 			throw new NoAgentsInSimulationException();
 		}
 		for (A a : this.getAgents()) {
-			this.toDotFile("Move"+(BaseSimulation.MOVE++)+"Before.dot");
+			this.toDotFile(a.getName()+"Move["+(BaseSimulation.MOVE++)+"]Pre.dot");
 			try {
 				System.out.println("Moving agent " + a.getName());
 				this.moveAgent(a);
@@ -50,7 +50,7 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 				System.out.println("Agent "+a.getName() +" removed from simulation");
 				this.finishedAgents.add(a);
 			}
-			this.toDotFile("Move"+(BaseSimulation.MOVE++)+"After.dot");
+			this.toDotFile(a.getName()+"Move["+(BaseSimulation.MOVE++)+"]Post.dot");
 		}
 		this.agents.removeAll(this.finishedAgents);
 	}
