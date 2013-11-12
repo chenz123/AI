@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Paths;
+import java.util.AbstractList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Utils {
 
@@ -22,5 +25,12 @@ public class Utils {
 		URI uri = file.toURI();
 		java.nio.file.Files.write(Paths.get(uri), content.getBytes());
 
+	}
+	
+	public static <T> void addToSortedList(AbstractList<T> list, T key, Comparator<T> comparator ){
+		int index = Collections.binarySearch(list, key, comparator);
+		// handle non existent key
+		index = index < 0 ? (index+1) * -1 : index;
+		list.add(index, key);
 	}
 }

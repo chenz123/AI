@@ -31,6 +31,10 @@ public class Main {
 				.getGraph().getVertexByNumber(16), s.getGraph()
 				.getVertexByNumber(4)));
 		
+		s.addAgent(new SyrianDumbBestFirstSearchAgent("Dumb Target Chaser 1", s
+				.getGraph().getVertexByNumber(16), s.getGraph()
+				.getVertexByNumber(4)));
+		
 		// prepare for a new run output
 		try {
 			Runtime.getRuntime().exec(new String[]{"/bin/bash","-c", "rm *.jpg"}).waitFor();

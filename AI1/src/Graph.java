@@ -1,4 +1,6 @@
 import java.util.AbstractCollection;
+import java.util.AbstractList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 
@@ -9,6 +11,7 @@ public interface Graph<V extends Vertex, E extends Edge<V>> {
 	public V addVertex(V v) throws VertexAlreadyInGraphException;
 	
 	public AbstractCollection<E> getAllEdgesForVertex(V v);
+	//public AbstractList<E> getAllEdgesForVertexSorted(V v, Comparator<E> c);
 	
 	public V addVertex();
 	
