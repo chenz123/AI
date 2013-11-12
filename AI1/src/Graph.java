@@ -34,13 +34,12 @@ public interface Graph<V extends Vertex, E extends Edge<V>> {
 	//public AbstractList<E> getAllEdgesForVertexSorted(V v, Comparator<E> c);
 
 	/**
-	 * add a vertex to the graph
+	 * automagically add a vertex to the graph
 	 * @return
-	 * 			the vertex
+	 * 			the vertex that was added
 	 */
-	/*
 	public V addVertex();
-	*/
+	
 	
 	/**
 	 * get all edges on the graph
