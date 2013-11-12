@@ -71,8 +71,6 @@ public class Main {
 		//s.toDotFile("Turn" + turn + ".dot");
 		s.printScores();
 
-		// prepare for a new run output
-		int i = 0;
 		try {
 			System.out.println("Running commands to generate pictures of agents' moves");
 			Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", "for i in *.dot; do dot -Tjpg \"$i\" > \"$i\".jpg; done"}).waitFor();
