@@ -1,9 +1,11 @@
 
-public class SyrianDumbBestFirstSearchAgent extends SyrianAgent{
+public class SyrianBestFirstSearchAgent1 extends SyrianAgent{
 
-	public SyrianDumbBestFirstSearchAgent(String name, SyrianVertex location,
-			SyrianVertex target) {
+	public SyrianBestFirstSearchAgent1(String name, SyrianVertex location,
+			SyrianVertex target, SyrianGraph graph) {
 		super(name, location, target);
+		// make some pre-calculations on graph
+		
 	}
 
 	@Override

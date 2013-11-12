@@ -1,10 +1,13 @@
-import java.util.Comparator;
 
-public class VTreeNodeDistanceComparator<T extends VTreeNode<V, E>, V extends Vertex, E extends Edge<V>> implements Comparator<T>{
 
-	@Override
-	public int compare(T o1, T o2) {
-		return o1.getDistance() - o2.getDistance();
+public final class VTreeNodeDistanceComparator<T extends VTreeNode<V, E>, V extends Vertex, E extends Edge<V>> extends VTreeNodeHeuristicComparator<VTreeNode<V,E>, V, E>{
+
+	public VTreeNodeDistanceComparator(){
+		super(new ZeroHeuristicFunction<V, E>());
 	}
-	
+	private VTreeNodeDistanceComparator(
+			HeuristicFunction<VTreeNode<V, E>, V, E> function) {
+		super(function);
+	}
+
 }
