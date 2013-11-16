@@ -4,6 +4,8 @@ public abstract class BaseAgent<G extends Graph<V, E>, V extends Vertex, E exten
 	private V target;
 	
 	private static final int NO_OP_SMALL_COST = 1;
+
+	public static final String PATH_COLOR = "purple";
 	private V location;
 	private String name;
 	private int score;

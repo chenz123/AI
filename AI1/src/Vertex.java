@@ -7,4 +7,9 @@ public interface Vertex{
 	 * 			the vertex number
 	 */
 	public int getNumber();
+	
+	
+	public String getColor();
+	
+	public void setColor(String color);
 }

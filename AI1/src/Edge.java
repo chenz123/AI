@@ -51,4 +51,11 @@ public interface Edge<V extends Vertex> {
 	 * 			false - otherwise
 	 */
 	public boolean hasVertex(V v);
+	
+	
+	public void setColor(String color);
+	
+	public String getColor();
+
+	public boolean hasColor();
 }

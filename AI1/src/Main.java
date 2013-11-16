@@ -31,7 +31,7 @@ public class Main {
 				.getGraph().getVertexByNumber(16), s.getGraph()
 				.getVertexByNumber(4)));
 		
-		s.addAgent(new SyrianDumbBestFirstSearchAgent("Dumb Target Chaser 1", s
+		s.addAgent(new SyrianMaxExpandHeuristicAgent("Dumb Target Chaser 1", s
 				.getGraph().getVertexByNumber(16), s.getGraph()
 				.getVertexByNumber(4)));
 		
@@ -49,48 +49,52 @@ public class Main {
 		
 		//long turn = System.currentTimeMillis();
 
-		try {
-			// while (s.agentsHaveMovesLeft()) {
-			while (!s.getAgents().isEmpty()) {
-				//s.toDotFile("currentTurn.dot");
-				//s.toDotFile("Turn" + (turn++) + ".dot");
-				s.moveAgents();
-
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		} catch (NoAgentsInSimulationException e) {
-			System.out.println("Simulation Done!");
-			s.printScores();
-		}
+		Display d = new BaseDisplay(s);
+		
+		d.loadPicture(s.toDotFile("start.dot"));
+		
+//		try {
+//			// while (s.agentsHaveMovesLeft()) {
+//			while (!s.getAgents().isEmpty()) {
+//				//s.toDotFile("currentTurn.dot");
+//				//s.toDotFile("Turn" + (turn++) + ".dot");
+//				s.moveAgents();
+//
+//				try {
+//					Thread.sleep(1);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		} catch (NoAgentsInSimulationException e) {
+//			System.out.println("Simulation Done!");
+//			s.printScores();
+//		}
 		//s.toDotFile("currentTurn.dot");
 		//s.toDotFile("Turn" + turn + ".dot");
-		s.printScores();
+//		s.printScores();
 
-		try {
-			System.out.println("Running commands to generate pictures of agents' moves");
-			Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", "for i in *.dot; do dot -Tjpg \"$i\" > \"$i\".jpg; done"}).waitFor();
-			Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", "rm *.dot"}).waitFor();
-			System.out.println("Finished generating jpgs of agents' moves");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-
-		for (SyrianAgent a : s.getAgents()) {
-			System.out.println("Agent " + a.getName()
-					+ " finished with score: " + a.getScore());
-		}
-
-		System.out.println("Simulation ended");
+//		try {
+//			System.out.println("Running commands to generate pictures of agents' moves");
+//			Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", "for i in *.dot; do dot -Tjpg \"$i\" > \"$i\".jpg; done"}).waitFor();
+//			//Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", "rm *.dot"}).waitFor();
+//			System.out.println("Finished generating jpgs of agents' moves");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//
+//		for (SyrianAgent a : s.getAgents()) {
+//			System.out.println("Agent " + a.getName()
+//					+ " finished with score: " + a.getScore());
+//		}
+//
+//		System.out.println("Simulation ended");
 
 	}
 }

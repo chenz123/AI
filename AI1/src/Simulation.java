@@ -1,4 +1,5 @@
 import java.util.AbstractCollection;
+import java.util.AbstractList;
 
 
 public interface Simulation<G extends Graph<V, E>, A extends Agent<G, V, E>, V extends Vertex, E extends Edge<V>>  {
@@ -12,24 +13,18 @@ public interface Simulation<G extends Graph<V, E>, A extends Agent<G, V, E>, V e
 	public boolean agentsHaveMovesLeft();
 
 	/**
-	 * move all agents on this graph one time
-	 * @throws agentHasNoMoveException
-	 * 			if an agent has no moves // TODO: verify
-	 * @throws NoAgentsInSimulationException
-	 * 			if no agents are in the simulation
+	 * move all agents on this graph one time - deprecated
 	 */
-	public void moveAgents() throws agentHasNoMoveException, NoAgentsInSimulationException;
+	public void moveAgents();
 	
 	/**
 	 * move a single agent on this simulation on time
 	 * @param a - the agent to move
-	 * @throws agentHasNoMoveException
-	 * 			if the agent has no move
-	 * @throws AgentIsDoneException
-	 * 			if agent is done in current
-	 * 			simulation
+	 * @return
+	 * 			path to output .dot file if such exists
+	 * 			null otherwise
 	 */
-	public void moveAgent(A a) throws agentHasNoMoveException, AgentIsDoneException;
+	public String moveAgent(A a);
 
 	/**
 	 * add an agent to the simulation
@@ -50,7 +45,7 @@ public interface Simulation<G extends Graph<V, E>, A extends Agent<G, V, E>, V e
 	 * @return
 	 * 			a collection of all agents on simulation
 	 */
-	public AbstractCollection<A> getAgents();
+	public AbstractList<A> getAgents();
 	
 	/**
 	 * set the simulation's graph
@@ -72,11 +67,36 @@ public interface Simulation<G extends Graph<V, E>, A extends Agent<G, V, E>, V e
 	 * simulation so far
 	 */
 	public void printScores();
-
+	
+	/**
+	 * reset all colors on vertices and edges
+	 */
+	public void resetColors();
+	
 	/**
 	 * export simulation to a dot file
 	 * @param filename
 	 * 			the filename to write to
+	 * @return
+	 * 			filename of output file
 	 */
-	public void toDotFile(String filename);
+	public String toDotFile(String filename);
+	
+	
+	public void moveNextAgent();
+	
+	public A getCurrentAgent();
+	
+	public void setCurrentAgent(A agent);
+	
+	/**
+	 * moves an next agent one move
+	 * @return
+	 * 			path to an output .dot file if such exists.
+	 * 			otherwise null
+	 */
+	public String moveAgent();
+	
+	
+	public void advanceAgent() throws NoAgentsInSimulationException;
 }

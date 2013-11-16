@@ -5,6 +5,9 @@ import java.util.Collections;
 
 public class VTree<G extends Graph<V, E>, V extends Vertex, E extends Edge<V>> {
 
+	private static final String VTREE_DESTINATION_COLOR = "blue";
+	private static final String VTREE_EXPAND_COLOR = "red";
+	
 	private VTreeNode<V, E> root;
 	private AbstractList<VTreeNode<V, E>> expandable;
 	private AbstractList<V> alreadyVisited;
@@ -55,6 +58,8 @@ public class VTree<G extends Graph<V, E>, V extends Vertex, E extends Edge<V>> {
 
 		VTreeNode<V, E> toBeExpanded = this.expandable.remove(0);
 		while (!(toBeExpanded.getVertex() == destination)) {
+			// color expanded vertex
+			toBeExpanded.getVertex().setColor(VTree.VTREE_EXPAND_COLOR);
 			System.out.println("Expanding "
 					+ toBeExpanded.getVertex().getNumber());
 			// expand another node
@@ -88,7 +93,10 @@ public class VTree<G extends Graph<V, E>, V extends Vertex, E extends Edge<V>> {
 			while (alreadyVisited.contains(toBeExpanded.getVertex()))
 				toBeExpanded = this.expandable.remove(0);
 		}
-
+		
+		// color destination
+		destination.setColor(VTree.VTREE_DESTINATION_COLOR);
+		
 		// got to destination! now create path
 		return createPathTo(toBeExpanded);
 	}

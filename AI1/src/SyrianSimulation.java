@@ -10,73 +10,20 @@ public class SyrianSimulation extends
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void moveAgent(SyrianAgent a) throws agentHasNoMoveException, AgentIsDoneException {
-		a.move(this.getGraph());
-		/*
-		SyrianEdge path = a.getMove(this.getGraph());
-		
-		System.out.println("Agent " + a.getName() + " is moving from "
-				+ a.getLocation().getNumber() + " to "
-				+ path.getOther(a.getLocation()).getNumber());
-		SyrianVertex destination = path.getOther(a.getLocation());
-
-		// calculate score
-		int factor = 1;
-
-		if (path.hasTerrorists()) {
-
-			// entered hostile territory
-			if (!a.hasEscort()) {
-				if (a.hasChemicals()) {
-
-					// major factor for going unescorted through
-					// hostile territory!
-					factor *= 1000;
-				} else {
-					// driving unescorted through terrorists
-					// this is OK according to mission description
-					// TODO: ask
-
-				}
-			} else { // has escort
-				if (a.hasChemicals()) {
-					// TODO: ask if that's the right behaviour
-					// driving escorted through edge
-					// ** doesn't clear edge **
-					// nothing happens (but regular side-effects)
-				} else {
-					// clear path
-					path.clearTerrorists();
-				}
-			}
-
-		}
-
-		// multipliers
-		factor *= a.hasChemicals() ? 2 : 1;
-		factor *= a.hasEscort() ? 2 : 1;
-
-		// regular side effects of traversing
-		int totalCost = factor * path.getWeight();
-
-		a.addScore(totalCost);
-
-		// move agent
-		a.setLocation(destination);
-		System.out.println("After moving, agent " + a.getName()
-				+ "'s score is: " + a.getScore());
-		*/
-	}
-
-	public void toDotFile(String filename) {
+	public String toDotFile(String filename) {
 
 		String sep = System.getProperty("line.separator");
 		String out = "graph {" + sep;
 
 		// vertices
 		for (SyrianVertex v : this.getGraph().getVertices()) {
-			out += v.getNumber() + "[label = \"Vertex #" + v.getNumber() + "\\nChemicals: "
+			out += v.getNumber()
+					+ "["
+					+ (v.hasEscort() ? "shape=pentagon " : "")
+					+ (v.getColor() == null ? "" : "style=filled fillcolor="
+							+ v.getColor())
+					+ (v.hasChemicals() ? " fontcolor=green" : "")
+					+ " label = \"Vertex #" + v.getNumber() + "\\nChemicals: "
 					+ v.getChemicalCount() + " \\nMilitary: "
 					+ v.getEscortCount();
 			for (SyrianAgent a : this.getAgentsInVertex(v)) {
@@ -93,9 +40,12 @@ public class SyrianSimulation extends
 		// + "\\nScore: " +a.getScore() + "\"];" + sep;
 		// }
 		for (SyrianEdge e : this.getGraph().getEdges()) {
-			out += e.getV1().getNumber() + " -- " + e.getV2().getNumber()
-					+ "[ label = \"" + e.getNumber() + "(W:" + e.getWeight()
-					+ ", T:" + (e.hasTerrorists() ? "Y" : "N") + ")\"];" + sep;
+			out += e.getV1().getNumber() + " -- " + e.getV2().getNumber() + "["
+					+ (e.hasColor() ? "color=" + e.getColor() : "")
+					+ (e.hasTerrorists() ? " fontcolor=red " : "")
+					+ " penwidth=3 label = \"" + e.getNumber() + "(W:"
+					+ e.getWeight() + ", T:" + (e.hasTerrorists() ? "Y" : "N")
+					+ ")\"];" + sep;
 		}
 
 		out += "}";
@@ -106,6 +56,13 @@ public class SyrianSimulation extends
 			System.err.println("Failed to print graph to file: " + filename);
 			e1.printStackTrace();
 		}
+		return filename;
 	}
 
+	@Override
+	public void moveAgents() {
+		// TODO Auto-generated method stub
+		System.out.println("Dont use this!");
+		System.out.println("Dont use this!");
+	}
 }

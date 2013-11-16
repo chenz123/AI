@@ -3,11 +3,13 @@ public class BaseEdge<V extends Vertex> implements Edge<V>{
 
 	private V v1, v2;
 	private int weight, number;
+	private String color;
 	private static int ids = 1;
 	public BaseEdge(V v1, V v2){
 		this.v1 = v1;
 		this.v2 = v2;
 		this.number = BaseEdge.ids++;
+		this.color = null;
 	}
 	
 	@Override
@@ -45,4 +47,18 @@ public class BaseEdge<V extends Vertex> implements Edge<V>{
 		return this.getV1() == v || this.getV2() == v;
 	}
 
+	@Override
+	public String getColor() {
+		return this.color;
+	}
+
+	@Override
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
+	@Override
+	public boolean hasColor(){
+		return this.color != null;
+	}
 }
