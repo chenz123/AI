@@ -2,7 +2,7 @@
 public class SyrianVertex extends BaseVertex<SyrianVertex>{
 
 	private int escort, chemicals;
-
+	
 	public boolean hasEscort() {
 		return this.escort > 0;
 	}

@@ -31,6 +31,10 @@ public class Utils {
 		int index = Collections.binarySearch(list, key, comparator);
 		// handle non existent key
 		index = index < 0 ? (index+1) * -1 : index;
+		// push to last location possible
+		while (index < list.size() && comparator.compare(list.get(index), key) == 0){
+			index++;
+		}
 		list.add(index, key);
 	}
 }
