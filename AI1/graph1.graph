@@ -22,7 +22,7 @@
 #E 10 12 W11 C   ; Edge from vertex 2 to vertex 3, weight 1, blocked
 #E 13 14 W11 C   ; Edge from vertex 2 to vertex 3, weight 1, blocked
 #E 15 14 W31 C   ; Edge from vertex 2 to vertex 3, weight 1, blocked
-#E 15 16 W11 C   ; Edge from vertex 2 to vertex 3, weight 1, blocked
+#E 15 16 W11 B   ; Edge from vertex 2 to vertex 3, weight 1, blocked
 
 #C 7 1  ; One unit of chemicals at vertex 7
 #C 1 1  ; One unit of chemicals at vertex 1

@@ -106,7 +106,7 @@ public class BaseDisplay<S extends Simulation<G, A, V, E>, G extends Graph<V, E>
 
 	@Override
 	public void playNextMove() {
-		String path = this.simulation.moveAgent();
+		String path = this.simulation.moveNextAgentInLine();
 
 		System.out.println("Generating jpg from dot file " + path);
 		String newPath = path + ".jpg";

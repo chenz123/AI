@@ -41,7 +41,9 @@ public class BaseSyrianHeuristicAgent extends SyrianAgent implements
 		// System.err.println("Sorry, agent tried to go to target without chemicals. Will do no-op instead.");
 		// throw new agentHasNoMoveException(this);
 		// }
-
+		if (this.getLocation() == this.getTarget() && graph.getVerticesWithChemicals().size() == 0){
+			throw new AgentIsDoneException(this);
+		}
 		AbstractList<HeuristicNode> path = this
 				.getPathToTargetWithChemicalsAllowReVisits(graph,
 						this.getLocation());
@@ -82,29 +84,7 @@ public class BaseSyrianHeuristicAgent extends SyrianAgent implements
 			totalDistanceToChemicalsTimesTwo += this.distancesFromTarget.get(v
 					.getNumber()) * 2;
 		}
-		// // trivial case
-		// System.out.println("Adding start case with no chemicals or escort");
-		// cheapest.add(new HeuristicNode(this.getLocation(), null, null, false,
-		// false, totalDistanceToChemicalsTimesTwo));
-		// // with chemicals
-		// if (this.hasChemicals() || this.getLocation().hasChemicals()) {
-		// System.out.println("Adding start case with chemicals");
-		// cheapest.add(new HeuristicNode(this.getLocation(), null, null,
-		// true, false, totalDistanceToChemicalsTimesTwo));
-		// }
-		// // with escort
-		// if (this.hasEscort() || this.getLocation().hasEscort()) {
-		// System.out.println("Adding start case with escort");
-		// cheapest.add(new HeuristicNode(this.getLocation(), null, null,
-		// false, true, totalDistanceToChemicalsTimesTwo));
-		// }
-		// // with both
-		// if ((this.hasChemicals() || this.getLocation().hasChemicals())
-		// && (this.hasEscort() || this.getLocation().hasEscort())) {
-		// System.out.println("Adding start case with chemicals and escort");
-		// cheapest.add(new HeuristicNode(this.getLocation(), null, null,
-		// true, true, totalDistanceToChemicalsTimesTwo));
-		// }
+		
 		toBeExpanded.add(new HeuristicNode(this.getLocation(), null, null, this
 				.hasChemicals(), this.hasEscort(),
 				totalDistanceToChemicalsTimesTwo));

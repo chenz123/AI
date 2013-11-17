@@ -130,7 +130,7 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 		return this.currentAgent;
 	}
 
-	public String moveAgent(){
+	public String moveNextAgentInLine(){
 		return this.moveAgent(this.currentAgent);
 	}
 
@@ -179,10 +179,14 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 			a.noOp();
 //			e.printStackTrace();
 		} catch (AgentIsDoneException e) {
-			System.out.println("Agent " + a.getName() + " is done. Removing him fro simulation!");
+			System.out.println("Agent " + a.getName() + " is done. Removing him from simulation!");
 			this.finishedAgents.add(a);
+			System.out.println(this.finishedAgents.size() + " agents finished");
 			this.agents.remove(a);
+			System.out.println(this.agents.size() + " agents left");
 //			e.printStackTrace();
+		} catch (NullPointerException npe){
+			System.out.println("We're sorry, but it seems the system can't handle your request to move agents right now!");
 		}
 		String outfile = this.toDotFile("outfile"+(BaseSimulation.MOVE++)+".dot");
 		this.resetColors();
@@ -191,6 +195,7 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 			this.advanceAgent();
 		} catch (NoAgentsInSimulationException e) {
 			System.out.println("Simulation finished!");
+			this.currentAgent = null;
 		}
 		return outfile;
 	}
