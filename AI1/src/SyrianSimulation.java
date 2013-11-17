@@ -5,6 +5,8 @@ import aiutils.Utils;
 public class SyrianSimulation extends
 		BaseSimulation<SyrianGraph, SyrianAgent, SyrianVertex, SyrianEdge> {
 
+	public static final int CROSSING_TERRORISTS_WITH_CHEMICALS_PENALTY = 1000;
+
 	public SyrianSimulation(SyrianGraph g) {
 		super(g);
 		// TODO Auto-generated constructor stub

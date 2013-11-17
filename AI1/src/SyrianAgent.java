@@ -93,7 +93,7 @@ public abstract class SyrianAgent extends
 
 					// major factor for going unescorted through
 					// hostile territory!
-					factor *= 1000;
+					factor *= SyrianSimulation.CROSSING_TERRORISTS_WITH_CHEMICALS_PENALTY;
 				} else {
 					// driving unescorted through terrorists
 					// this is OK according to mission description
