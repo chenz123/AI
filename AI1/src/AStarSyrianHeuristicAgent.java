@@ -2,7 +2,9 @@ import java.util.AbstractCollection;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import java.util.Iterator;
+@SuppressWarnings("unused")
 
 public class AStarSyrianHeuristicAgent extends SyrianAgent implements
 		SyrianHeuristicAgent<SyrianGraph, SyrianVertex, SyrianEdge> {
@@ -22,8 +24,7 @@ public class AStarSyrianHeuristicAgent extends SyrianAgent implements
 	public SyrianEdge getMove(SyrianGraph graph)
 			throws agentHasNoMoveException, AgentIsDoneException {
 
-		if (this.getLocation() == this.getTarget()
-				&& graph.getVerticesWithChemicals().size() == 0) {
+		if (graph.getVerticesWithChemicals().size() == 0 && ! this.hasChemicals()) {
 			throw new AgentIsDoneException(this);
 		}
 		AbstractList<HeuristicNode> path = this
@@ -110,6 +111,12 @@ public class AStarSyrianHeuristicAgent extends SyrianAgent implements
 		// this.expandedHNs = new ArrayList<HeuristicNode>();
 		while (!(toExpand.getRoot() == this.getTarget() && toExpand
 				.hasChemicals())) {
+			// print current queue
+//			Iterator<HeuristicNode> it = toBeExpanded.iterator();
+//			System.out.println("Current list:");
+//			while (it.hasNext()){
+//				System.out.println(it.next().toString());
+//			}
 			// sleep to control infinite loops
 			try {
 				Thread.currentThread();
@@ -145,7 +152,6 @@ public class AStarSyrianHeuristicAgent extends SyrianAgent implements
 	private void expand(SyrianGraph g, HeuristicNode hn,
 			AbstractList<HeuristicNode> toBeExpanded,
 			AbstractList<HeuristicNode> alreadyExpanded) {
-		// trivial expansion
 		AbstractCollection<SyrianEdge> edges = g.getAllEdgesForVertex(hn
 				.getRoot());
 		for (SyrianEdge e : edges) {
@@ -154,21 +160,27 @@ public class AStarSyrianHeuristicAgent extends SyrianAgent implements
 					.getRoot().getNumber());
 			int destinationDistanceFromTarget = this.distancesFromTarget
 					.get(destination.getNumber());
+			// trivial expansion
 			this.addNewHeuristicNode(destination, hn, e, false, false,
 					hn.getHn() + e.getWeight(), toBeExpanded, alreadyExpanded);
 			if (hn.getRoot().hasChemicals() || hn.hasChemicals()) {
 				// expand with chemicals
+				int chn = -1;
 				this.addNewHeuristicNode(
 						destination,
 						hn,
 						e,
 						true,
 						false,
-						hn.getHn()
+						(chn = hn.getHn()
+								// cost to move
 								- ((sourceDistanceFromTarget - destinationDistanceFromTarget) * 2)
 								+ (e.getWeight() * 2)
 								* (e.hasTerrorists() ? SyrianSimulation.CROSSING_TERRORISTS_WITH_CHEMICALS_PENALTY
-										: 1), toBeExpanded, alreadyExpanded);
+										: 1)), toBeExpanded, alreadyExpanded);
+				System.out.println("added option with hn: " + chn + " "
+						+ hn.getRoot().getNumber() + "->"
+						+ destination.getNumber());
 			}
 			if (hn.getRoot().hasEscort() || hn.hasEscort()) {
 				// expand with escort
@@ -199,11 +211,11 @@ public class AStarSyrianHeuristicAgent extends SyrianAgent implements
 			AbstractList<HeuristicNode> alreadyExpanded) {
 		HeuristicNode candidate = new HeuristicNode(destination, hn, e, b, c,
 				hnv);
-		for (HeuristicNode node : toBeExpanded) {
+		/*for (HeuristicNode node : toBeExpanded) {
 			if (node.equals(candidate)) {
 				return;
 			}
-		}
+		}*/
 		for (HeuristicNode node : alreadyExpanded) {
 			if (node.equals(candidate)) {
 				return;

@@ -16,25 +16,29 @@ public class Main {
 			return;
 		}
 
-		// s.addAgent(new SyrianHumanAgent("Human 1",
-		// s.getGraph().getVertexByNumber(1),
-		// s.getGraph().getVertexByNumber(4)));
-		// s.addAgent(new SyrianTerroristBusterAgent("Terrorist Buster 1", s
-		// .getGraph().getVertexByNumber(2), s.getGraph()
-		// .getVertexByNumber(4)));
-		//
-		// s.addAgent(new SyrianTerroristBusterAgent("Terrorist Buster 2", s
-		// .getGraph().getVertexByNumber(10), s.getGraph()
-		// .getVertexByNumber(4)));
-		//
-		// s.addAgent(new SyrianGreedyAgent("Greedy 1", s.getGraph()
-		// .getVertexByNumber(16), s.getGraph().getVertexByNumber(4)));
+//		 s.addAgent(new SyrianHumanAgent("Human 1",
+//		 s.getGraph().getVertexByNumber(1),
+//		 s.getGraph().getVertexByNumber(4)));
+//		 s.addAgent(new SyrianTerroristBusterAgent("Terrorist Buster 1", s
+//		 .getGraph().getVertexByNumber(2), s.getGraph()
+//		 .getVertexByNumber(4)));
+		
+//		 s.addAgent(new SyrianTerroristBusterAgent("Terrorist Buster 2", s
+//		 .getGraph().getVertexByNumber(10), s.getGraph()
+//		 .getVertexByNumber(4)));
+//		
+//		 s.addAgent(new SyrianGreedyAgent("Greedy 1", s.getGraph()
+//		 .getVertexByNumber(16), s.getGraph().getVertexByNumber(4)));
+
 		s.addAgent(new AStarSyrianHeuristicAgent(
 				"Heuristic 1", s.getGraph().getVertexByNumber(16),
 						s.getGraph().getVertexByNumber(4), s.getGraph()));
+//
+//		s.addAgent(new BaseSyrianHeuristicAgent(
+//				"Heuristic 1", s.getGraph().getVertexByNumber(16),
+//						s.getGraph().getVertexByNumber(4), s.getGraph()));
 		//
 		// s.addAgent(new SyrianMaxExpandHeuristicAgent("Dumb Target Chaser 1",
-		// s
 		// .getGraph().getVertexByNumber(16), s.getGraph()
 		// .getVertexByNumber(4)));
 

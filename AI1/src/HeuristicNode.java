@@ -80,7 +80,8 @@ public class HeuristicNode {
 
 	public boolean equals(HeuristicNode other) {
 		// compare base node and state
-		return this.getRoot() == other.getRoot()
+		return /*this.getParent() == other.getParent()
+				&&*/ this.getRoot() == other.getRoot()
 				&& this.hasChemicals() == other.hasChemicals()
 				&& this.hasEscort() == other.hasEscort();
 	}

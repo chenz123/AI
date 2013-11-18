@@ -2,7 +2,11 @@ import java.util.AbstractCollection;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+
 import java.util.Iterator;
+@SuppressWarnings("unused")
+
 
 public class BaseSyrianHeuristicAgent extends SyrianAgent implements
 		SyrianHeuristicAgent<SyrianGraph, SyrianVertex, SyrianEdge> {
@@ -326,11 +330,11 @@ public class BaseSyrianHeuristicAgent extends SyrianAgent implements
 			AbstractList<HeuristicNode> alreadyExpanded) {
 		HeuristicNode candidate = new HeuristicNode(destination, hn, e, b, c,
 				hnv);
-		for (HeuristicNode node : toBeExpanded) {
-			if (node.equals(candidate)) {
-				return;
-			}
-		}
+//		for (HeuristicNode node : toBeExpanded) {
+//			if (node.equals(candidate)) {
+//				return;
+//			}
+//		}
 		for (HeuristicNode node : alreadyExpanded) {
 			if (node.equals(candidate)) {
 				return;
