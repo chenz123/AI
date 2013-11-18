@@ -7,7 +7,7 @@ public class Main {
 		System.out.println("Starting simulation...");
 
 		SyrianSimulation s;
-		String filename = "graph1.graph";
+		String filename = "graph3.graph";
 		try {
 			s = new SyrianSimulation(new SyrianGraph(filename));
 		} catch (IOException e) {
@@ -29,10 +29,13 @@ public class Main {
 //		
 //		 s.addAgent(new SyrianGreedyAgent("Greedy 1", s.getGraph()
 //		 .getVertexByNumber(16), s.getGraph().getVertexByNumber(4)));
-
-		s.addAgent(new AStarSyrianHeuristicAgent(
-				"Heuristic 1", s.getGraph().getVertexByNumber(1),
-						s.getGraph().getVertexByNumber(4), s.getGraph()));
+		s.addAgent(new RealtimeAStarSyrianHeuristicAgent(
+				"Heuristic 1", s.getGraph().getVertexByNumber(18),
+						s.getGraph().getVertexByNumber(14), s.getGraph(), 1));
+//
+//		s.addAgent(new AStarSyrianHeuristicAgent(
+//				"Heuristic 1", s.getGraph().getVertexByNumber(1),
+//						s.getGraph().getVertexByNumber(14), s.getGraph()));
 //
 //		s.addAgent(new BaseSyrianHeuristicAgent(
 //				"Heuristic 1", s.getGraph().getVertexByNumber(16),

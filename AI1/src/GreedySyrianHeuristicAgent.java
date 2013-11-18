@@ -8,7 +8,7 @@ import java.util.Iterator;
 @SuppressWarnings("unused")
 
 
-public class GreedySyrianHeuristicAgent extends BaseSyrianHeuristicAgent{
+public class GreedySyrianHeuristicAgent extends BaseSyrianHeuristicAgent<HeuristicNode>{
 
 //	public static HeuristicNodeComparator hnc = new HeuristicNodeComparator();
 //	private HashMap<Integer, Integer> distancesFromTarget;
@@ -108,9 +108,31 @@ public class GreedySyrianHeuristicAgent extends BaseSyrianHeuristicAgent{
 		return path;
 	}
 
+	
+	public void addNewHeuristicNode(SyrianVertex destination,
+			HeuristicNode hn, SyrianEdge e, boolean b, boolean c, int hnv,
+			AbstractList<HeuristicNode> toBeExpanded,
+			AbstractList<HeuristicNode> alreadyExpanded) {
+		HeuristicNode candidate = new HeuristicNode(destination, hn, e, b, c,
+				hnv);
+//		for (HeuristicNode node : toBeExpanded) {
+//			if (node.equals(candidate)) {
+//				return;
+//			}
+//		}
+		for (HeuristicNode node : alreadyExpanded) {
+			if (node.equals(candidate)) {
+				return;
+			}
+		}
+		aiutils.Utils.addToSortedList(toBeExpanded, candidate,
+				super.hnc);
+	}
+	
 	private void expand(SyrianGraph g, HeuristicNode hn,
 			AbstractList<HeuristicNode> toBeExpanded,
 			AbstractList<HeuristicNode> alreadyExpanded) {
+		this.setExpansions(this.getExpansions() + 1);
 		// trivial expansion
 		AbstractCollection<SyrianEdge> edges = g.getAllEdgesForVertex(hn
 				.getRoot());

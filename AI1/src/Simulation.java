@@ -99,4 +99,6 @@ public interface Simulation<G extends Graph<V, E>, A extends Agent<G, V, E>, V e
 	
 	
 	public void advanceAgent() throws NoAgentsInSimulationException;
+	
+	public AbstractCollection<A> getFinishedAgents();
 }

@@ -88,4 +88,14 @@ public abstract class BaseAgent<G extends Graph<V, E>, V extends Vertex, E exten
 	public void setTerroristsBusted(int te){
 		this.terroristsBusted = te;
 	}
+	
+	public String toString(){
+		String res = "";
+		String sep = System.getProperty("line.separator");
+		res += this.getName() + " statistics: " + sep;
+		res += "Chemicals evacuated: " + this.getChemicalsEvacuated() + sep;
+		res += "Terrorists busted: " + this.getTerroristsBusted() + sep;
+		res += "Score: " + this.getScore() + sep;
+		return res;
+	}
 }

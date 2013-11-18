@@ -77,6 +77,15 @@ public class BaseDisplay<S extends Simulation<G, A, V, E>, G extends Graph<V, E>
 			System.out.println("refreshing display...");
 			this.refreshDisplay();
 			break;
+		case 's':
+			System.out.println("Live agents' scores:");
+			for (A a : this.getSimulation().getAgents()){
+				System.out.println(a.toString());
+			}
+			System.out.println("Finished agents' scores:");
+			for (A a : this.getSimulation().getFinishedAgents()){
+				System.out.println(a.toString());
+			}
 
 		}
 	}

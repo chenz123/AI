@@ -34,36 +34,6 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 		return false;
 	}
 
-	// @Override
-	// public void moveAgents() throws NoAgentsInSimulationException {
-	// while (this.currentAgent != this.agents)
-	//
-	// if (this.agents.size() == 0){
-	// throw new NoAgentsInSimulationException();
-	// }
-	//
-	// for (int agentIndex = 0; agentIndex < this.agents.size();
-	// agentIndex++){//A a : this.getAgents()) {
-	// this.currentAgent = this.agents.get(agentIndex);
-	// this.toDotFile(a.getName()+"Move["+(BaseSimulation.MOVE++)+"]Pre.dot");
-	// try {
-	// System.out.println("Moving agent " + this.currentAgent.getName());
-	// this.moveAgent(a);
-	// } catch (agentHasNoMoveException e) {
-	// System.out.println("Agent " + a.getName()
-	// + "does not have any moves left - doing no-op");
-	// a.noOp();
-	// } catch (AgentIsDoneException e) {
-	// System.out.println("Agent "+a.getName() +" removed from simulation");
-	// this.finishedAgents.add(a);
-	// }
-	// this.toDotFile(a.getName()+"Move["+(BaseSimulation.MOVE++)+"]Post.dot");
-	// // reset agent's simulation coloring
-	// this.resetColors();
-	// }
-	// this.agents.removeAll(this.finishedAgents);
-	// }
-
 	@Override
 	public void addAgent(A agent) {
 		if (this.agents.size() == 0) {
@@ -156,6 +126,10 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 			this.advanceAgent();
 		} catch (NoAgentsInSimulationException e) {
 			System.out.println("Simulation is done.");
+			System.out.println("Scores:");
+			for (A a : this.getFinishedAgents()){
+				System.out.println(a.toString());
+			}
 		}
 	}
 
@@ -198,5 +172,9 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 			this.currentAgent = null;
 		}
 		return outfile;
+	}
+
+	public AbstractCollection<A> getFinishedAgents(){
+		return this.finishedAgents;
 	}
 }

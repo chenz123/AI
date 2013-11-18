@@ -2,12 +2,11 @@ import java.util.AbstractCollection;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import java.util.Iterator;
 @SuppressWarnings("unused")
 
-public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent implements
-		SyrianHeuristicAgent<SyrianGraph, SyrianVertex, SyrianEdge> {
+public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent<HeuristicNode> implements
+		SyrianHeuristicAgent<SyrianGraph, SyrianVertex, SyrianEdge, HeuristicNode> {
 
 //	public static HeuristicNodeComparator hnc = new HeuristicNodeComparator();
 //	private HashMap<Integer, Integer> distancesFromTarget;
@@ -151,9 +150,33 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent implemen
 		return path;
 	}
 
+	
+	public void addNewHeuristicNode(SyrianVertex destination,
+			HeuristicNode hn, SyrianEdge e, boolean b, boolean c, int hnv,
+			AbstractList<HeuristicNode> toBeExpanded,
+			AbstractList<HeuristicNode> alreadyExpanded) {
+		HeuristicNode candidate = new HeuristicNode(destination, hn, e, b, c,
+				hnv);
+//		for (HeuristicNode node : toBeExpanded) {
+//			if (node.equals(candidate)) {
+//				return;
+//			}
+//		}
+		for (HeuristicNode node : alreadyExpanded) {
+			if (node.equals(candidate)) {
+				return;
+			}
+		}
+		aiutils.Utils.addToSortedList(toBeExpanded, candidate,
+				super.hnc);
+	}
+	
 	private void expand(SyrianGraph g, HeuristicNode hn,
 			AbstractList<HeuristicNode> toBeExpanded,
 			AbstractList<HeuristicNode> alreadyExpanded) {
+
+		this.setExpansions(this.getExpansions() + 1);
+
 		AbstractCollection<SyrianEdge> edges = g.getAllEdgesForVertex(hn
 				.getRoot());
 		for (SyrianEdge e : edges) {

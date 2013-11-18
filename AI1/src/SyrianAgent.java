@@ -131,4 +131,5 @@ public abstract class SyrianAgent extends
 		System.out.println("After moving, agent " + this.getName()
 				+ "'s score is: " + this.getScore());
 	}
+	
 }
