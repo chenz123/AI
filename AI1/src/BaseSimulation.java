@@ -139,7 +139,7 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 
 		try {
 			this.getCurrentAgent().move(this.getGraph());
-		} catch (agentHasNoMoveException e) {
+		} catch (AgentHasNoMoveException e) {
 			System.out.println("Agent " + this.getCurrentAgent().getName()
 					+ " has no moves. Doing no-op.");
 			this.getCurrentAgent().noOp();
@@ -174,7 +174,7 @@ public abstract class BaseSimulation<G extends Graph<V, E>, A extends Agent<G, V
 	public String moveAgent(A a){
 		try {
 			a.move(this.getGraph());
-		} catch (agentHasNoMoveException e) {
+		} catch (AgentHasNoMoveException e) {
 			System.out.println("Agent " + a.getName() + " had no moves! Doing no-op.");
 			a.noOp();
 //			e.printStackTrace();

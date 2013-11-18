@@ -11,7 +11,7 @@ public class SyrianGreedyAgent extends SyrianAgent {
 
 	@Override
 	public SyrianEdge getMove(SyrianGraph graph)
-			throws agentHasNoMoveException, AgentIsDoneException {
+			throws AgentHasNoMoveException, AgentIsDoneException {
 
 		HashMap<String, HashMap<Integer, Integer>> shortestPaths = this
 				.hasChemicals() ? graph.shortestPathsForEdges(
@@ -91,7 +91,7 @@ public class SyrianGreedyAgent extends SyrianAgent {
 		}
 		System.out.println("Greedy agent going to: " + destination);
 		if (destination == null) {
-			throw new agentHasNoMoveException(this);
+			throw new AgentHasNoMoveException(this);
 		}
 
 		// if (this.hasChemicals() && distances.get(destination.getNumber()) ==
@@ -111,7 +111,7 @@ public class SyrianGreedyAgent extends SyrianAgent {
 			destination = graph.getVertexByNumber(previous.get(destination
 					.getNumber()));
 		} catch (NullPointerException npe){
-			throw new agentHasNoMoveException(this);
+			throw new AgentHasNoMoveException(this);
 		}
 		SyrianEdge cheapest = null;
 		for (SyrianEdge e : (this.hasChemicals() ? graph.getClearEdgesFor(
@@ -127,7 +127,7 @@ public class SyrianGreedyAgent extends SyrianAgent {
 		if (cheapest != null) {
 			return cheapest;
 		}
-		throw new agentHasNoMoveException(this);
+		throw new AgentHasNoMoveException(this);
 	}
 
 }

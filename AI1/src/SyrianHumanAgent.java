@@ -19,7 +19,7 @@ public class SyrianHumanAgent extends SyrianAgent {
 	}
 
 	@Override
-	public SyrianEdge getMove(SyrianGraph graph) throws agentHasNoMoveException {
+	public SyrianEdge getMove(SyrianGraph graph) throws AgentHasNoMoveException {
 
 		// handle military
 		if (this.hasEscort()) {
@@ -120,9 +120,9 @@ public class SyrianHumanAgent extends SyrianAgent {
 				return selection;
 			}
 		} catch (NumberFormatException nfe) {
-			throw new agentHasNoMoveException(this);
+			throw new AgentHasNoMoveException(this);
 		}
-		throw new agentHasNoMoveException(this);
+		throw new AgentHasNoMoveException(this);
 	}
 
 	public boolean hasMovesLeft(SyrianGraph g) {

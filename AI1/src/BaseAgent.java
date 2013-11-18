@@ -45,7 +45,7 @@ public abstract class BaseAgent<G extends Graph<V, E>, V extends Vertex, E exten
 	public boolean hasMovesLeft(G graph) {
 		try {
 			return this.getMove(graph) != null;
-		} catch (agentHasNoMoveException e) {
+		} catch (AgentHasNoMoveException e) {
 			return false;
 		} catch (AgentIsDoneException e) {
 			return false; // will be removed later (TODO: think if this is good...)

@@ -43,12 +43,12 @@ public interface Agent<G extends Graph<V, E>, V extends Vertex, E extends Edge<V
 	 * @return
 	 * 			the next Edge object (or an extension of
 	 * 			an Edge object) the agent will traverse next.
-	 * @throws agentHasNoMoveException
+	 * @throws AgentHasNoMoveException
 	 * 			if agent has no moves left
 	 * @throws AgentIsDoneException
 	 * 			if agent is done and will have no moves
 	 */
-	public E getMove(G graph) throws agentHasNoMoveException, AgentIsDoneException;
+	public E getMove(G graph) throws AgentHasNoMoveException, AgentIsDoneException;
 	
 	/**
 	 * add score to the agent's current score
@@ -112,10 +112,10 @@ public interface Agent<G extends Graph<V, E>, V extends Vertex, E extends Edge<V
 	/**
 	 * move the agent on a graph
 	 * @param graph - the graph the agent is moving on
-	 * @throws agentHasNoMoveException
+	 * @throws AgentHasNoMoveException
 	 * 			if agent has no move now
 	 * @throws AgentIsDoneException
 	 * 			if agent has no moves left
 	 */
-	public void move(G graph) throws agentHasNoMoveException, AgentIsDoneException;
+	public void move(G graph) throws AgentHasNoMoveException, AgentIsDoneException;
 }

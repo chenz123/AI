@@ -3,16 +3,17 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 import java.util.Iterator;
 @SuppressWarnings("unused")
 
-public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent implements
-		SyrianHeuristicAgent<SyrianGraph, SyrianVertex, SyrianEdge> {
+
+public class GreedySyrianHeuristicAgent extends BaseSyrianHeuristicAgent{
 
 //	public static HeuristicNodeComparator hnc = new HeuristicNodeComparator();
 //	private HashMap<Integer, Integer> distancesFromTarget;
 
-	public AStarSyrianHeuristicAgent(String name, SyrianVertex location,
+	public GreedySyrianHeuristicAgent(String name, SyrianVertex location,
 			SyrianVertex target, SyrianGraph g) {
 		super(name, location, target, g);
 //		this.distancesFromTarget = g.shortestPathsForEdges(this.getTarget(),
@@ -23,8 +24,8 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent implemen
 	@Override
 	public SyrianEdge getMove(SyrianGraph graph)
 			throws AgentHasNoMoveException, AgentIsDoneException {
-
-		if (graph.getVerticesWithChemicals().size() == 0 && ! this.hasChemicals()) {
+		
+		if (this.getLocation() == this.getTarget() && graph.getVerticesWithChemicals().size() == 0){
 			throw new AgentIsDoneException(this);
 		}
 		AbstractList<HeuristicNode> path = this
@@ -34,9 +35,7 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent implemen
 		for (HeuristicNode hn : path) {
 			System.out.println(hn.toString());
 		}
-
 		HeuristicNode move = path.get(path.size() - 1);
-		// take chemicals if needed
 		if (move.hasChemicals() && !this.hasChemicals()) {
 			try {
 				this.takeChemicals();
@@ -48,40 +47,6 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent implemen
 				e.printStackTrace();
 			}
 		}
-
-		// take military if needed
-		if (move.hasEscort() && !this.hasEscort()) {
-
-			try {
-				this.takeEscort();
-			} catch (AgentAlreadyHasEscortException e) {
-				System.out.println("Error in path!");
-				e.printStackTrace();
-			} catch (LocationDoesntHaveEscortException e) {
-				System.out.println("Error in path!");
-				e.printStackTrace();
-			}
-
-		}
-		// drop escort if needed
-		if (this.hasEscort() && !move.hasEscort()) {
-			try {
-				this.dropEscort();
-			} catch (AgentHasNoEscortException e) {
-				System.out.println("Error in path!");
-				e.printStackTrace();
-			}
-		}
-		// drop chemicals if needed
-		if (this.hasEscort() && !move.hasEscort()) {
-			try {
-				this.dropChemicals();
-			} catch (AgentHasNoChemicalsException e) {
-				System.out.println("Error in path!");
-				e.printStackTrace();
-			}
-		}
-
 		System.out.println("MOVE: " + move.toString());
 		return move.getPath();
 	}
@@ -98,14 +63,12 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent implemen
 		alreadyExpanded = new ArrayList<HeuristicNode>();
 
 		// // get total distance to chemicals * 2:
-		// compute agent's distance
-		int totalDistanceToChemicalsTimesTwo = this.hasChemicals() ? this.distancesFromTarget.get(this.getLocation().getNumber()) * 2 : 0;
-		// compute other chemical's distances
+		int totalDistanceToChemicalsTimesTwo = 0;
 		for (SyrianVertex v : graph.getVerticesWithChemicals()) {
 			totalDistanceToChemicalsTimesTwo += this.distancesFromTarget.get(v
 					.getNumber()) * 2;
 		}
-
+		
 		toBeExpanded.add(new HeuristicNode(this.getLocation(), null, null, this
 				.hasChemicals(), this.hasEscort(),
 				totalDistanceToChemicalsTimesTwo));
@@ -113,12 +76,6 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent implemen
 		// this.expandedHNs = new ArrayList<HeuristicNode>();
 		while (!(toExpand.getRoot() == this.getTarget() && toExpand
 				.hasChemicals())) {
-			// print current queue
-//			Iterator<HeuristicNode> it = toBeExpanded.iterator();
-//			System.out.println("Current list:");
-//			while (it.hasNext()){
-//				System.out.println(it.next().toString());
-//			}
 			// sleep to control infinite loops
 			try {
 				Thread.currentThread();
@@ -154,6 +111,7 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent implemen
 	private void expand(SyrianGraph g, HeuristicNode hn,
 			AbstractList<HeuristicNode> toBeExpanded,
 			AbstractList<HeuristicNode> alreadyExpanded) {
+		// trivial expansion
 		AbstractCollection<SyrianEdge> edges = g.getAllEdgesForVertex(hn
 				.getRoot());
 		for (SyrianEdge e : edges) {
@@ -162,33 +120,24 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent implemen
 					.getRoot().getNumber());
 			int destinationDistanceFromTarget = this.distancesFromTarget
 					.get(destination.getNumber());
-			// trivial expansion
 			this.addNewHeuristicNode(destination, hn, e, false, false,
-					hn.getHn() + e.getWeight(), toBeExpanded, alreadyExpanded);
+					hn.getHn(), toBeExpanded, alreadyExpanded);
 			if (hn.getRoot().hasChemicals() || hn.hasChemicals()) {
 				// expand with chemicals
-				int chn = -1;
 				this.addNewHeuristicNode(
 						destination,
 						hn,
 						e,
 						true,
 						false,
-						(chn = hn.getHn()
-								// cost to move
-								- ((sourceDistanceFromTarget - destinationDistanceFromTarget) * 2)
-								+ (e.getWeight() * 2)
-								* (e.hasTerrorists() ? SyrianSimulation.CROSSING_TERRORISTS_WITH_CHEMICALS_PENALTY
-										: 1)), toBeExpanded, alreadyExpanded);
-				System.out.println("added option with hn: " + chn + " "
-						+ hn.getRoot().getNumber() + "->"
-						+ destination.getNumber());
+						hn.getHn()
+								- ((sourceDistanceFromTarget - destinationDistanceFromTarget) * 2),
+						toBeExpanded, alreadyExpanded);
 			}
 			if (hn.getRoot().hasEscort() || hn.hasEscort()) {
 				// expand with escort
 				this.addNewHeuristicNode(destination, hn, e, false, true,
-						hn.getHn() + e.getWeight() * 2, toBeExpanded,
-						alreadyExpanded);
+						hn.getHn(), toBeExpanded, alreadyExpanded);
 			}
 			if ((hn.getRoot().hasEscort() || hn.hasEscort())
 					&& (hn.getRoot().hasChemicals() || hn.hasChemicals())) {
@@ -200,9 +149,8 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent implemen
 						true,
 						true,
 						hn.getHn()
-								- ((sourceDistanceFromTarget - destinationDistanceFromTarget) * 2)
-								+ e.getWeight() * 4, toBeExpanded,
-						alreadyExpanded);
+								- ((sourceDistanceFromTarget - destinationDistanceFromTarget) * 2),
+						toBeExpanded, alreadyExpanded);
 			}
 		}
 	}

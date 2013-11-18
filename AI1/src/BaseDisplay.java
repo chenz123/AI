@@ -66,17 +66,31 @@ public class BaseDisplay<S extends Simulation<G, A, V, E>, G extends Graph<V, E>
 		case '+':
 			System.out.println("Zooming in");
 			this.zoomIn();
-			this.loadPicture(this.imagePath);
+			this.refreshDisplay();;
 			break;
 		case '-':
 			System.out.println("Zooming out");
 			this.zoomOut();
 			this.loadPicture(this.imagePath);
 			break;
+		case 'r':
+			System.out.println("refreshing display...");
+			this.refreshDisplay();
+			break;
 
 		}
 	}
 
+	public void refreshDisplay(){
+		String tmpFileName = "current.dot";
+		this.getSimulation().toDotFile(tmpFileName);
+		this.makeJPG(tmpFileName);
+		this.loadPicture(tmpFileName+".jpg");
+		this.repaint();
+		this.pack();
+		this.panel.setSize(500, 500);
+		this.setSize(500, 500);
+	}
 	@Override
 	public void loadPicture(String path) {
 		this.imagePath = path;
@@ -104,9 +118,8 @@ public class BaseDisplay<S extends Simulation<G, A, V, E>, G extends Graph<V, E>
 		return this.simulation;
 	}
 
-	@Override
-	public void playNextMove() {
-		String path = this.simulation.moveNextAgentInLine();
+	public void makeJPG(String path){
+		
 
 		System.out.println("Generating jpg from dot file " + path);
 		String newPath = path + ".jpg";
@@ -121,7 +134,12 @@ public class BaseDisplay<S extends Simulation<G, A, V, E>, G extends Graph<V, E>
 			e.printStackTrace();
 		}
 
-		this.loadPicture(newPath);
+	}
+
+	@Override
+	public void playNextMove() {
+		this.makeJPG(this.simulation.moveNextAgentInLine());
+		this.refreshDisplay();
 
 	}
 

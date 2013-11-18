@@ -31,7 +31,7 @@ public class Main {
 //		 .getVertexByNumber(16), s.getGraph().getVertexByNumber(4)));
 
 		s.addAgent(new AStarSyrianHeuristicAgent(
-				"Heuristic 1", s.getGraph().getVertexByNumber(16),
+				"Heuristic 1", s.getGraph().getVertexByNumber(1),
 						s.getGraph().getVertexByNumber(4), s.getGraph()));
 //
 //		s.addAgent(new BaseSyrianHeuristicAgent(
@@ -60,10 +60,13 @@ public class Main {
 
 		// long turn = System.currentTimeMillis();
 
-		Display<SyrianSimulation, SyrianGraph, SyrianAgent, SyrianVertex, SyrianEdge> d = new BaseDisplay<SyrianSimulation, SyrianGraph, SyrianAgent, SyrianVertex, SyrianEdge>(
+		BaseDisplay<SyrianSimulation, SyrianGraph, SyrianAgent, SyrianVertex, SyrianEdge> d = new BaseDisplay<SyrianSimulation, SyrianGraph, SyrianAgent, SyrianVertex, SyrianEdge>(
 				s);
 
-		d.loadPicture(s.toDotFile("start.dot"));
+		//d.loadPicture(s.toDotFile("start.dot"));
+		d.repaint();
+		d.pack();
+		d.setSize(500, 500);
 
 	}
 }

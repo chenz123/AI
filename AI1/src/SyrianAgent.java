@@ -64,7 +64,7 @@ public abstract class SyrianAgent extends
 		this.hasChemicals = false;
 	}
 
-	public void move(SyrianGraph g) throws agentHasNoMoveException,
+	public void move(SyrianGraph g) throws AgentHasNoMoveException,
 			AgentIsDoneException {
 
 		// evacuate all possible chemicals

@@ -10,7 +10,7 @@ public class SyrianTerroristBusterAgent extends SyrianAgent {
 
 	@Override
 	public SyrianEdge getMove(SyrianGraph graph)
-			throws agentHasNoMoveException, AgentIsDoneException {
+			throws AgentHasNoMoveException, AgentIsDoneException {
 		
 		System.out.println("location: " + this.getLocation().getNumber());
 		HashMap<String, HashMap<Integer, Integer>> shortestPaths = graph
@@ -85,7 +85,7 @@ public class SyrianTerroristBusterAgent extends SyrianAgent {
 		}
 		System.out.println("Buster going to: "+destination);
 		if (destination == null) {
-			throw new agentHasNoMoveException(this);
+			throw new AgentHasNoMoveException(this);
 		}
 
 		System.out.println("3333");
@@ -120,7 +120,7 @@ public class SyrianTerroristBusterAgent extends SyrianAgent {
 		if (cheapest != null){
 			return cheapest;
 		}
-		throw new agentHasNoMoveException(this);
+		throw new AgentHasNoMoveException(this);
 	}
 
 }
