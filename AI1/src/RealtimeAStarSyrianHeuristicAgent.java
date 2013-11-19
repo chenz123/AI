@@ -3,38 +3,39 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
 @SuppressWarnings("unused")
+public class RealtimeAStarSyrianHeuristicAgent extends
+		BaseSyrianHeuristicAgent<RealtimeHeuristicNode>
+		implements
+		SyrianHeuristicAgent<SyrianGraph, SyrianVertex, SyrianEdge, RealtimeHeuristicNode> {
 
-public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent<SimpleHeuristicNode> implements
-		SyrianHeuristicAgent<SyrianGraph, SyrianVertex, SyrianEdge, SimpleHeuristicNode> {
+	private int maxDepth;
 
-//	public static HeuristicNodeComparator hnc = new HeuristicNodeComparator();
-//	private HashMap<Integer, Integer> distancesFromTarget;
-
-	public AStarSyrianHeuristicAgent(String name, SyrianVertex location,
-			SyrianVertex target, SyrianGraph g) {
+	public RealtimeAStarSyrianHeuristicAgent(String name,
+			SyrianVertex location, SyrianVertex target, SyrianGraph g,
+			int maxDepth) {
 		super(name, location, target, g);
-//		this.distancesFromTarget = g.shortestPathsForEdges(this.getTarget(),
-//				g.getEdges()).get("distances");
-
+		this.maxDepth = maxDepth;
 	}
 
 	@Override
 	public SyrianEdge getMove(SyrianGraph graph)
 			throws AgentHasNoMoveException, AgentIsDoneException {
 
-		if (graph.getVerticesWithChemicals().size() == 0 && ! this.hasChemicals()) {
+		if (graph.getVerticesWithChemicals().size() == 0
+				&& !this.hasChemicals()) {
 			throw new AgentIsDoneException(this);
 		}
-		AbstractList<SimpleHeuristicNode> path = this
+		AbstractList<RealtimeHeuristicNode> path = this
 				.getPathToTargetWithChemicalsAllowReVisits(graph,
 						this.getLocation());
 		System.out.println("Path: ");
-		for (SimpleHeuristicNode hn : path) {
+		for (RealtimeHeuristicNode hn : path) {
 			System.out.println(hn.toString());
 		}
 
-		SimpleHeuristicNode move = path.get(path.size() - 1);
+		RealtimeHeuristicNode move = path.get(path.size() - 1);
 		// take chemicals if needed
 		if (move.hasChemicals() && !this.hasChemicals()) {
 			try {
@@ -86,38 +87,39 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent<SimpleHe
 	}
 
 	@Override
-	public AbstractList<SimpleHeuristicNode> getPathToTargetWithChemicalsAllowReVisits(
+	public AbstractList<RealtimeHeuristicNode> getPathToTargetWithChemicalsAllowReVisits(
 			SyrianGraph graph, SyrianVertex source) {
 
-		ArrayList<SimpleHeuristicNode> toBeExpanded, alreadyExpanded;
+		ArrayList<RealtimeHeuristicNode> toBeExpanded, alreadyExpanded;
 		// create node expansion list
 		// AbstractList<HeuristicNode> cheapest = new
 		// ArrayList<HeuristicNode>();
-		toBeExpanded = new ArrayList<SimpleHeuristicNode>();
-		alreadyExpanded = new ArrayList<SimpleHeuristicNode>();
+		toBeExpanded = new ArrayList<RealtimeHeuristicNode>();
+		alreadyExpanded = new ArrayList<RealtimeHeuristicNode>();
 
 		// // get total distance to chemicals * 2:
 		// compute agent's distance
-		int totalDistanceToChemicalsTimesTwo = this.hasChemicals() ? this.distancesFromTarget.get(this.getLocation().getNumber()) * 2 : 0;
+		int totalDistanceToChemicalsTimesTwo = this.hasChemicals() ? this.distancesFromTarget
+				.get(this.getLocation().getNumber()) * 2 : 0;
 		// compute other chemical's distances
 		for (SyrianVertex v : graph.getVerticesWithChemicals()) {
 			totalDistanceToChemicalsTimesTwo += this.distancesFromTarget.get(v
 					.getNumber()) * 2;
 		}
 
-		toBeExpanded.add(new SimpleHeuristicNode(this.getLocation(), null, null, this
-				.hasChemicals(), this.hasEscort(),
-				totalDistanceToChemicalsTimesTwo));
-		SimpleHeuristicNode toExpand = toBeExpanded.remove(0);
-		// this.expandedHNs = new ArrayList<HeuristicNode>();
-		while (!(toExpand.getRoot() == this.getTarget() && toExpand
+		toBeExpanded.add(new RealtimeHeuristicNode(this.getLocation(), null,
+				null, this.hasChemicals(), this.hasEscort(),
+				totalDistanceToChemicalsTimesTwo, 0));
+		RealtimeHeuristicNode toExpand = toBeExpanded.remove(0);
+		// this.expandedHNs = new ArrayList<RealtimeHeuristicNode>();
+		while (toExpand != null && !(toExpand.getRoot() == this.getTarget() && toExpand
 				.hasChemicals())) {
 			// print current queue
-//			Iterator<HeuristicNode> it = toBeExpanded.iterator();
-//			System.out.println("Current list:");
-//			while (it.hasNext()){
-//				System.out.println(it.next().toString());
-//			}
+			// Iterator<HeuristicNode> it = toBeExpanded.iterator();
+			// System.out.println("Current list:");
+			// while (it.hasNext()){
+			// System.out.println(it.next().toString());
+			// }
 			// sleep to control infinite loops
 			try {
 				Thread.currentThread();
@@ -126,21 +128,48 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent<SimpleHe
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			System.out.println("Now expanding a state of vertex "
+			System.out.println("Now trying to expanding a state of vertex "
 					+ toExpand.getRoot().getNumber());
-			this.expand(graph, toExpand, toBeExpanded, alreadyExpanded);
+			if (toExpand.getDepth() <= this.maxDepth) {
+				// increase depth by one for all expanded nodes
+				this.expand(graph, toExpand, toBeExpanded, alreadyExpanded,
+						toExpand.getDepth() + 1);
+			} else {
+				
+				System.out.println("Couldn't expand! max depth reached!");
+			}
 			// for (SyrianEdge e :
 			// graph.getAllEdgesForVertex(toExpand.getRoot())) {
 			// //SyrianVertex newVertex = e.getOther(toExpand.getRoot());
 			// this.expand(graph, toExpand);
 			// }
 			alreadyExpanded.add(toExpand);
-			toExpand = toBeExpanded.remove(0);
+			if (!toBeExpanded.isEmpty()) {
+				toExpand = toBeExpanded.remove(0);
+			} else {
+				toExpand = null;
+			}
 
+		}
+		// didn't reach goal, select minimal from expanded
+		if (toExpand == null){
+			
+			RealtimeHeuristicNode candidate = null;
+			for (RealtimeHeuristicNode rhn : alreadyExpanded) {
+				if (candidate == null
+						|| candidate.getHn() > rhn.getHn()
+						|| (candidate.getHn() == rhn.getHn() && candidate
+								.getRoot().getNumber() > rhn.getRoot()
+								.getNumber()) || candidate.getDepth() < rhn.getDepth()) {
+					candidate = rhn;
+				}
+			}
+			toExpand = candidate;
+			System.out.println("Chose node: " + toExpand.toString());
 		}
 
 		// backtrack to beginning of route:
-		AbstractList<SimpleHeuristicNode> path = new ArrayList<SimpleHeuristicNode>();
+		AbstractList<RealtimeHeuristicNode> path = new ArrayList<RealtimeHeuristicNode>();
 		while (toExpand != null) {
 			path.add(toExpand);
 			toExpand = toExpand.getParent();
@@ -150,30 +179,28 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent<SimpleHe
 		return path;
 	}
 
-	
 	public void addNewHeuristicNode(SyrianVertex destination,
-			SimpleHeuristicNode hn, SyrianEdge e, boolean b, boolean c, int hnv,
-			AbstractList<SimpleHeuristicNode> toBeExpanded,
-			AbstractList<SimpleHeuristicNode> alreadyExpanded) {
-		SimpleHeuristicNode candidate = new SimpleHeuristicNode(destination, hn, e, b, c,
-				hnv);
-//		for (HeuristicNode node : toBeExpanded) {
-//			if (node.equals(candidate)) {
-//				return;
-//			}
-//		}
-		for (SimpleHeuristicNode node : alreadyExpanded) {
+			RealtimeHeuristicNode hn, SyrianEdge e, boolean b, boolean c,
+			int hnv, AbstractList<RealtimeHeuristicNode> toBeExpanded,
+			AbstractList<RealtimeHeuristicNode> alreadyExpanded, int depth) {
+		RealtimeHeuristicNode candidate = new RealtimeHeuristicNode(
+				destination, hn, e, b, c, hnv, depth);
+		// for (HeuristicNode node : toBeExpanded) {
+		// if (node.equals(candidate)) {
+		// return;
+		// }
+		// }
+		for (RealtimeHeuristicNode node : alreadyExpanded) {
 			if (node.equals(candidate)) {
 				return;
 			}
 		}
-		aiutils.Utils.addToSortedList(toBeExpanded, candidate,
-				super.hnc);
+		aiutils.Utils.addToSortedList(toBeExpanded, candidate, super.hnc);
 	}
-	
-	private void expand(SyrianGraph g, SimpleHeuristicNode hn,
-			AbstractList<SimpleHeuristicNode> toBeExpanded,
-			AbstractList<SimpleHeuristicNode> alreadyExpanded) {
+
+	private void expand(SyrianGraph g, RealtimeHeuristicNode hn,
+			AbstractList<RealtimeHeuristicNode> toBeExpanded,
+			AbstractList<RealtimeHeuristicNode> alreadyExpanded, int depth) {
 
 		this.setExpansions(this.getExpansions() + 1);
 
@@ -187,7 +214,8 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent<SimpleHe
 					.get(destination.getNumber());
 			// trivial expansion
 			this.addNewHeuristicNode(destination, hn, e, false, false,
-					hn.getHn() + e.getWeight(), toBeExpanded, alreadyExpanded);
+					hn.getHn() + e.getWeight(), toBeExpanded, alreadyExpanded,
+					depth);
 			if (hn.getRoot().hasChemicals() || hn.hasChemicals()) {
 				// expand with chemicals
 				int chn = -1;
@@ -202,7 +230,8 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent<SimpleHe
 								- ((sourceDistanceFromTarget - destinationDistanceFromTarget) * 2)
 								+ (e.getWeight() * 2)
 								* (e.hasTerrorists() ? SyrianSimulation.CROSSING_TERRORISTS_WITH_CHEMICALS_PENALTY
-										: 1)), toBeExpanded, alreadyExpanded);
+										: 1)), toBeExpanded, alreadyExpanded,
+						depth);
 				System.out.println("added option with hn: " + chn + " "
 						+ hn.getRoot().getNumber() + "->"
 						+ destination.getNumber());
@@ -211,7 +240,7 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent<SimpleHe
 				// expand with escort
 				this.addNewHeuristicNode(destination, hn, e, false, true,
 						hn.getHn() + e.getWeight() * 2, toBeExpanded,
-						alreadyExpanded);
+						alreadyExpanded, depth);
 			}
 			if ((hn.getRoot().hasEscort() || hn.hasEscort())
 					&& (hn.getRoot().hasChemicals() || hn.hasChemicals())) {
@@ -225,7 +254,7 @@ public class AStarSyrianHeuristicAgent extends BaseSyrianHeuristicAgent<SimpleHe
 						hn.getHn()
 								- ((sourceDistanceFromTarget - destinationDistanceFromTarget) * 2)
 								+ e.getWeight() * 4, toBeExpanded,
-						alreadyExpanded);
+						alreadyExpanded, depth);
 			}
 		}
 	}

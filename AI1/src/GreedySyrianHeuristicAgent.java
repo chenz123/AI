@@ -8,7 +8,7 @@ import java.util.Iterator;
 @SuppressWarnings("unused")
 
 
-public class GreedySyrianHeuristicAgent extends BaseSyrianHeuristicAgent<HeuristicNode>{
+public class GreedySyrianHeuristicAgent extends BaseSyrianHeuristicAgent<SimpleHeuristicNode>{
 
 //	public static HeuristicNodeComparator hnc = new HeuristicNodeComparator();
 //	private HashMap<Integer, Integer> distancesFromTarget;
@@ -28,14 +28,14 @@ public class GreedySyrianHeuristicAgent extends BaseSyrianHeuristicAgent<Heurist
 		if (this.getLocation() == this.getTarget() && graph.getVerticesWithChemicals().size() == 0){
 			throw new AgentIsDoneException(this);
 		}
-		AbstractList<HeuristicNode> path = this
+		AbstractList<SimpleHeuristicNode> path = this
 				.getPathToTargetWithChemicalsAllowReVisits(graph,
 						this.getLocation());
 		System.out.println("Path: ");
-		for (HeuristicNode hn : path) {
+		for (SimpleHeuristicNode hn : path) {
 			System.out.println(hn.toString());
 		}
-		HeuristicNode move = path.get(path.size() - 1);
+		SimpleHeuristicNode move = path.get(path.size() - 1);
 		if (move.hasChemicals() && !this.hasChemicals()) {
 			try {
 				this.takeChemicals();
@@ -52,15 +52,15 @@ public class GreedySyrianHeuristicAgent extends BaseSyrianHeuristicAgent<Heurist
 	}
 
 	@Override
-	public AbstractList<HeuristicNode> getPathToTargetWithChemicalsAllowReVisits(
+	public AbstractList<SimpleHeuristicNode> getPathToTargetWithChemicalsAllowReVisits(
 			SyrianGraph graph, SyrianVertex source) {
 
-		ArrayList<HeuristicNode> toBeExpanded, alreadyExpanded;
+		ArrayList<SimpleHeuristicNode> toBeExpanded, alreadyExpanded;
 		// create node expansion list
 		// AbstractList<HeuristicNode> cheapest = new
 		// ArrayList<HeuristicNode>();
-		toBeExpanded = new ArrayList<HeuristicNode>();
-		alreadyExpanded = new ArrayList<HeuristicNode>();
+		toBeExpanded = new ArrayList<SimpleHeuristicNode>();
+		alreadyExpanded = new ArrayList<SimpleHeuristicNode>();
 
 		// // get total distance to chemicals * 2:
 		int totalDistanceToChemicalsTimesTwo = 0;
@@ -69,10 +69,10 @@ public class GreedySyrianHeuristicAgent extends BaseSyrianHeuristicAgent<Heurist
 					.getNumber()) * 2;
 		}
 		
-		toBeExpanded.add(new HeuristicNode(this.getLocation(), null, null, this
+		toBeExpanded.add(new SimpleHeuristicNode(this.getLocation(), null, null, this
 				.hasChemicals(), this.hasEscort(),
 				totalDistanceToChemicalsTimesTwo));
-		HeuristicNode toExpand = toBeExpanded.remove(0);
+		SimpleHeuristicNode toExpand = toBeExpanded.remove(0);
 		// this.expandedHNs = new ArrayList<HeuristicNode>();
 		while (!(toExpand.getRoot() == this.getTarget() && toExpand
 				.hasChemicals())) {
@@ -98,7 +98,7 @@ public class GreedySyrianHeuristicAgent extends BaseSyrianHeuristicAgent<Heurist
 		}
 
 		// backtrack to beginning of route:
-		AbstractList<HeuristicNode> path = new ArrayList<HeuristicNode>();
+		AbstractList<SimpleHeuristicNode> path = new ArrayList<SimpleHeuristicNode>();
 		while (toExpand != null) {
 			path.add(toExpand);
 			toExpand = toExpand.getParent();
@@ -110,17 +110,17 @@ public class GreedySyrianHeuristicAgent extends BaseSyrianHeuristicAgent<Heurist
 
 	
 	public void addNewHeuristicNode(SyrianVertex destination,
-			HeuristicNode hn, SyrianEdge e, boolean b, boolean c, int hnv,
-			AbstractList<HeuristicNode> toBeExpanded,
-			AbstractList<HeuristicNode> alreadyExpanded) {
-		HeuristicNode candidate = new HeuristicNode(destination, hn, e, b, c,
+			SimpleHeuristicNode hn, SyrianEdge e, boolean b, boolean c, int hnv,
+			AbstractList<SimpleHeuristicNode> toBeExpanded,
+			AbstractList<SimpleHeuristicNode> alreadyExpanded) {
+		SimpleHeuristicNode candidate = new SimpleHeuristicNode(destination, hn, e, b, c,
 				hnv);
 //		for (HeuristicNode node : toBeExpanded) {
 //			if (node.equals(candidate)) {
 //				return;
 //			}
 //		}
-		for (HeuristicNode node : alreadyExpanded) {
+		for (SimpleHeuristicNode node : alreadyExpanded) {
 			if (node.equals(candidate)) {
 				return;
 			}
@@ -129,9 +129,9 @@ public class GreedySyrianHeuristicAgent extends BaseSyrianHeuristicAgent<Heurist
 				super.hnc);
 	}
 	
-	private void expand(SyrianGraph g, HeuristicNode hn,
-			AbstractList<HeuristicNode> toBeExpanded,
-			AbstractList<HeuristicNode> alreadyExpanded) {
+	private void expand(SyrianGraph g, SimpleHeuristicNode hn,
+			AbstractList<SimpleHeuristicNode> toBeExpanded,
+			AbstractList<SimpleHeuristicNode> alreadyExpanded) {
 		this.setExpansions(this.getExpansions() + 1);
 		// trivial expansion
 		AbstractCollection<SyrianEdge> edges = g.getAllEdgesForVertex(hn
