@@ -1,4 +1,13 @@
-
+/**
+ * This is the agent class, representing
+ * various (simple and less simple) agents
+ * 
+ * @author Reut Sharabani & Chen Zrubavel
+ *
+ * @param <G> - a graph class this agent is based on
+ * @param <V> - a vertex class this agent is based on
+ * @param <E> - an edge class this agent is based on
+ */
 public interface Agent<G extends Graph<V, E>, V extends Vertex, E extends Edge<V>> {
 
 	/**

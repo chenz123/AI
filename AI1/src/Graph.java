@@ -1,7 +1,17 @@
 import java.util.AbstractCollection;
 import java.util.HashMap;
 
-
+/**
+ * This is the graph class, constructed from edges
+ * and vertices to create a graph as we know it
+ * from graph theory and various Computer Science
+ * related topics
+ * 
+ * @author Reut Sharabani & Chen Zrubavel
+ *
+ * @param <V> - the vertex this graph is based on
+ * @param <E> - the edge this graph is based on
+ */
 public interface Graph<V extends Vertex, E extends Edge<V>> {
 
 	/**

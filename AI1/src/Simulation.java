@@ -97,8 +97,17 @@ public interface Simulation<G extends Graph<V, E>, A extends Agent<G, V, E>, V e
 	 */
 	public String moveNextAgentInLine();
 	
-	
+	/**
+	 * move one agent forward and reference the next agent
+	 * @throws NoAgentsInSimulationException
+	 * 			if no agents are left in simulation
+	 */
 	public void advanceAgent() throws NoAgentsInSimulationException;
 	
+	/**
+	 * return a list of all agents that finished the simulation
+	 * @return
+	 * 			a list of all agents who finished the simulation
+	 */
 	public AbstractCollection<A> getFinishedAgents();
 }
